@@ -1,5 +1,4 @@
 import { NextPage } from "next";
-import { foobar, bar } from "@root/shared";
 
 const Home: NextPage = () => {
   return (
