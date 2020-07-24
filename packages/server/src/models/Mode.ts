@@ -1,10 +1,5 @@
-import {
-  PrimaryGeneratedColumn,
-  BaseEntity,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from "typeorm";
-import { Field, ID, ObjectType } from "type-graphql";
+import { PrimaryGeneratedColumn, BaseEntity, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Field, ID, ObjectType } from 'type-graphql';
 
 @ObjectType()
 export class Model extends BaseEntity {
@@ -13,10 +8,10 @@ export class Model extends BaseEntity {
   id: number;
 
   @Field(() => Date)
-  @CreateDateColumn({ type: "timestamp" })
+  @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
   @Field(() => Date)
-  @UpdateDateColumn({ type: "timestamp" })
+  @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 }
