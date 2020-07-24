@@ -3,13 +3,26 @@
   "version": "1.0.0",
   "main": "src/app.ts",
   "license": "MIT",
+  "scripts": {
+    "dev": "ts-node-dev src/app.ts",
+    "start": "ts-node src/app.ts",
+    "db:generate": "yarn typeorm migration:generate --config ../../ormconfig.json -n",
+    "db:migrate": "yarn typeorm migration:run --config ../../ormconfig.json",
+    "typeorm": "ts-node ./node_modules/.bin/typeorm"
+  },
   "dependencies": {
-    "@root/shared": "^1.0.0"
+    "@root/shared": "^1.0.0",
+    "apollo-server": "^2.16.0",
+    "graphql": "^15.3.0",
+    "pg": "^8.3.0",
+    "reflect-metadata": "^0.1.13",
+    "type-graphql": "^1.0.0-rc.3",
+    "typeorm": "^0.2.25"
   },
   "devDependencies": {
-    "@types/node": "^14.0.23",
+    "@types/node": "^14.0.25",
     "ts-node": "^8.10.2",
-    "ts-node-dev": "^1.0.0-pre.52",
+    "ts-node-dev": "^1.0.0-pre.55",
     "typescript": "^3.9.7"
   }
 }
