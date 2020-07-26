@@ -7,7 +7,10 @@
     "dev": "ts-node-dev src/app.ts",
     "start": "ts-node src/app.ts",
     "db:generate": "yarn typeorm migration:generate --config ../../ormconfig.json -n",
+    "db:drop": "yarn typeorm schema:drop  --config ../../ormconfig.json ",
+    "db:seed": "ts-node ./db/generator/index.ts",
     "db:migrate": "yarn typeorm migration:run --config ../../ormconfig.json",
+    "db:reset": "yarn db:drop && yarn db:migrate && yarn db:seed",
     "typeorm": "ts-node ./node_modules/.bin/typeorm"
   },
   "dependencies": {
