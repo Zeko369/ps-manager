@@ -25,7 +25,6 @@ export class User extends Model {
   @Column({ name: 'last_name' })
   lastName: string;
 
-  @Field(() => String)
   @Column()
   password: string;
 
