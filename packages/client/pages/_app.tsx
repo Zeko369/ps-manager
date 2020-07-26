@@ -1,22 +1,14 @@
 import React from 'react';
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import { AppProps as BaseAppProps } from 'next/app';
-import Link from 'next/link';
+import { AppProps } from 'next/app';
 
 import { withApollo } from '../lib/apollo';
+import ChakraWrapper from '../lib/chakra';
 
-interface AppProps extends BaseAppProps {
-  apollo: ApolloClient<NormalizedCacheObject>;
-}
-
-const App: React.FC<AppProps> = ({ Component, pageProps, apollo }) => {
+const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
-    <div>
-      <h1>Hello</h1>
-      <Link href="/">Home</Link>
-      <Link href="/other">Other</Link>
+    <ChakraWrapper>
       <Component {...pageProps} />
-    </div>
+    </ChakraWrapper>
   );
 };
 
