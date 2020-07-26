@@ -7,7 +7,7 @@ import resolvers from './controllers';
 
 async function main() {
   const connection = await createConnection();
-  const schema = await buildSchema({ resolvers });
+  const schema = await buildSchema({ resolvers, validate: false });
   const server = new ApolloServer({ schema });
   await server.listen(4000);
   console.log('Listening on http://localhost:4000');
