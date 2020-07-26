@@ -38,9 +38,17 @@ export type User = {
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   email: Scalars['String'];
-  password: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  role: Role;
+  name: Scalars['String'];
 };
 
+
+export enum Role {
+  Admin = 'ADMIN',
+  User = 'USER'
+}
 
 export type Product = {
   __typename?: 'Product';
@@ -53,23 +61,12 @@ export type Product = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createUser: User;
-  updateUser: User;
   deleteUser: Scalars['Boolean'];
   createProduct: Product;
   updateProduct: Product;
   deleteProduct: Scalars['Boolean'];
-};
-
-
-export type MutationCreateUserArgs = {
-  data: CreateUserInputs;
-};
-
-
-export type MutationUpdateUserArgs = {
-  data: UpdateUserInput;
-  id: Scalars['Int'];
+  signUp: User;
+  signIn: User;
 };
 
 
@@ -93,14 +90,15 @@ export type MutationDeleteProductArgs = {
   id: Scalars['Int'];
 };
 
-export type CreateUserInputs = {
-  email: Scalars['String'];
-  password: Scalars['String'];
+
+export type MutationSignUpArgs = {
+  data: SignUpInput;
 };
 
-export type UpdateUserInput = {
-  email?: Maybe<Scalars['String']>;
-  password?: Maybe<Scalars['String']>;
+
+export type MutationSignInArgs = {
+  password: Scalars['String'];
+  email: Scalars['String'];
 };
 
 export type CreateProductInputs = {
@@ -111,6 +109,13 @@ export type CreateProductInputs = {
 export type UpdateProductInput = {
   name?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
+};
+
+export type SignUpInput = {
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -163,6 +168,17 @@ export type UpdateProductMutation = (
     { __typename?: 'Product' }
     & Pick<Product, 'id' | 'name' | 'price'>
   ) }
+);
+
+export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UsersQuery = (
+  { __typename?: 'Query' }
+  & { users: Array<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'name' | 'email' | 'role'>
+  )> }
 );
 
 export type MainQueryVariables = Exact<{ [key: string]: never; }>;
@@ -316,6 +332,41 @@ export function useUpdateProductMutation(baseOptions?: ApolloReactHooks.Mutation
 export type UpdateProductMutationHookResult = ReturnType<typeof useUpdateProductMutation>;
 export type UpdateProductMutationResult = ApolloReactCommon.MutationResult<UpdateProductMutation>;
 export type UpdateProductMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateProductMutation, UpdateProductMutationVariables>;
+export const UsersDocument = gql`
+    query USERS {
+  users {
+    id
+    name
+    email
+    role
+  }
+}
+    `;
+
+/**
+ * __useUsersQuery__
+ *
+ * To run a query within a React component, call `useUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUsersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUsersQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<UsersQuery, UsersQueryVariables>) {
+        return ApolloReactHooks.useQuery<UsersQuery, UsersQueryVariables>(UsersDocument, baseOptions);
+      }
+export function useUsersLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<UsersQuery, UsersQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<UsersQuery, UsersQueryVariables>(UsersDocument, baseOptions);
+        }
+export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
+export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
+export type UsersQueryResult = ApolloReactCommon.QueryResult<UsersQuery, UsersQueryVariables>;
 export const MainDocument = gql`
     query Main {
   products {
