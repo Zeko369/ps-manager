@@ -1,6 +1,7 @@
 import React from 'react';
-import { Box, Heading, Flex, Text, Button, Link } from '@chakra-ui/core';
+import { Box, Heading, Flex, Text } from '@chakra-ui/core';
 import NextLink from 'next/link';
+import Link from '../Link';
 
 const MenuItems = ({ children }) => (
   <Text mt={{ base: 4, md: 0 }} mr={6} display="block">
@@ -56,9 +57,7 @@ const BaseNavbar: React.FC<BaseNavbarProps> = ({ links, right, ...props }) => {
       >
         {links.map((link) => (
           <MenuItems key={`${link.href}-${link.text}`}>
-            <NextLink href={link.href}>
-              <Link>{link.text}</Link>
-            </NextLink>
+            <Link href={link.href}>{link.text}</Link>
           </MenuItems>
         ))}
       </Box>

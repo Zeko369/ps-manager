@@ -1,8 +1,8 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import Link from 'next/link';
 import { Heading, List, ListItem, Flex, Button } from '@chakra-ui/core';
 
+import Link from '../../../../components/Link';
 import { PRODUCTS_QUERY } from '../graphql/queries';
 import { ProductsQuery } from '../../../../graphql';
 
