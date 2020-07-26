@@ -6,7 +6,7 @@ import { CreateProductInputs, UpdateProductInput } from './inputs';
 export class ProductResolver {
   @Query(() => [Product])
   products() {
-    return Product.find();
+    return Product.find({ order: { createdAt: 'DESC' } });
   }
 
   @Query(() => Product)

@@ -6,7 +6,7 @@ import { CreateUserInputs, UpdateUserInput } from './inputs';
 export class UserResolver {
   @Query(() => [User])
   users() {
-    return User.find();
+    return User.find({ order: { createdAt: 'DESC' } });
   }
 
   @Query(() => User)

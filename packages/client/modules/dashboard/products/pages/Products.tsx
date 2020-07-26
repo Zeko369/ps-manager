@@ -29,7 +29,7 @@ export const ProductsPage: React.FC = () => {
                 href="/dashboard/products/[id]/edit"
                 as={`/dashboard/products/${product.id}/edit`}
               >
-                <a>{product.name}</a>
+                <a>{`${product.name} -> $${product.price}`}</a>
               </Link>
             </ListItem>
           ))}
