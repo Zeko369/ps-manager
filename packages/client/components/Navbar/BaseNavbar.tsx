@@ -55,7 +55,7 @@ const BaseNavbar: React.FC<BaseNavbarProps> = ({ links, right, ...props }) => {
         flexGrow={1}
       >
         {links.map((link) => (
-          <MenuItems>
+          <MenuItems key={`${link.href}-${link.text}`}>
             <NextLink href={link.href}>
               <Link>{link.text}</Link>
             </NextLink>
