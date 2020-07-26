@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Arg } from 'type-graphql';
+import { Resolver, Query, Mutation, Arg, Int } from 'type-graphql';
 import { User } from '../../models/User';
 import { CreateUserInputs, UpdateUserInput } from './inputs';
 
@@ -10,7 +10,7 @@ export class UserResolver {
   }
 
   @Query(() => User)
-  user(@Arg('id') id: number) {
+  user(@Arg('id', () => Int) id: number) {
     return User.findOne({ where: { id } });
   }
 
@@ -22,7 +22,7 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
-  async updateUser(@Arg('id') id: number, @Arg('data') data: UpdateUserInput) {
+  async updateUser(@Arg('id', () => Int) id: number, @Arg('data') data: UpdateUserInput) {
     const user = await User.findOne({ where: { id } });
 
     if (!user) {
@@ -37,7 +37,7 @@ export class UserResolver {
   }
 
   @Mutation(() => Boolean)
-  async deleteUser(@Arg('id') id: number) {
+  async deleteUser(@Arg('id', () => Int) id: number) {
     const user = await User.findOne({ where: { id } });
     if (!user) throw new Error('User not found!');
     await user.remove();

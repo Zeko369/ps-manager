@@ -1,5 +1,5 @@
 import { Product } from '../../models/Product';
-import { Query, Resolver, Arg, Mutation, Args } from 'type-graphql';
+import { Query, Resolver, Arg, Mutation, Args, Int } from 'type-graphql';
 import { CreateProductInputs, UpdateProductInput } from './inputs';
 
 @Resolver()
@@ -10,7 +10,7 @@ export class ProductResolver {
   }
 
   @Query(() => Product)
-  product(@Arg('id') id: number) {
+  product(@Arg('id', () => Int) id: number) {
     return Product.findOne(id);
   }
 
@@ -21,7 +21,7 @@ export class ProductResolver {
   }
 
   @Mutation(() => Product)
-  async updateProduct(@Arg('id') id: number, @Arg('data') data: UpdateProductInput) {
+  async updateProduct(@Arg('id', () => Int) id: number, @Arg('data') data: UpdateProductInput) {
     const product = await Product.findOne({ where: { id } });
 
     if (!product) {
@@ -35,7 +35,7 @@ export class ProductResolver {
   }
 
   @Mutation(() => Boolean)
-  async deleteProduct(@Arg('id') id: number) {
+  async deleteProduct(@Arg('id', () => Int) id: number) {
     const product = await Product.findOne({ where: { id } });
 
     if (!product) {
