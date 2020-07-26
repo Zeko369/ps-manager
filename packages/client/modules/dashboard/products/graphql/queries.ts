@@ -8,3 +8,13 @@ export const PRODUCTS_QUERY = gql`
     }
   }
 `;
+
+export const CREATE_PRODUCT = gql`
+  mutation createProduct($name: String!, $price: Float!) {
+    createProduct(data: { name: $name, price: $price }) {
+      id
+      name
+      price
+    }
+  }
+`;
