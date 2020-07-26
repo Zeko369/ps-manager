@@ -24,7 +24,14 @@ export const ProductsPage: React.FC = () => {
       ) : (
         <List styleType="disc">
           {data.products.map((product) => (
-            <ListItem key={product.id}>{product.name}</ListItem>
+            <ListItem key={product.id}>
+              <Link
+                href="/dashboard/products/[id]/edit"
+                as={`/dashboard/products/${product.id}/edit`}
+              >
+                <a>{product.name}</a>
+              </Link>
+            </ListItem>
           ))}
         </List>
       )}

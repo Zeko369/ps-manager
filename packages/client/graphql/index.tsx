@@ -24,17 +24,17 @@ export type Query = {
 
 
 export type QueryUserArgs = {
-  id: Scalars['Float'];
+  id: Scalars['Int'];
 };
 
 
 export type QueryProductArgs = {
-  id: Scalars['Float'];
+  id: Scalars['Int'];
 };
 
 export type User = {
   __typename?: 'User';
-  id: Scalars['Float'];
+  id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   email: Scalars['String'];
@@ -44,7 +44,7 @@ export type User = {
 
 export type Product = {
   __typename?: 'Product';
-  id: Scalars['Float'];
+  id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   name: Scalars['String'];
@@ -69,12 +69,12 @@ export type MutationCreateUserArgs = {
 
 export type MutationUpdateUserArgs = {
   data: UpdateUserInput;
-  id: Scalars['Float'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeleteUserArgs = {
-  id: Scalars['Float'];
+  id: Scalars['Int'];
 };
 
 
@@ -85,12 +85,12 @@ export type MutationCreateProductArgs = {
 
 export type MutationUpdateProductArgs = {
   data: UpdateProductInput;
-  id: Scalars['Float'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeleteProductArgs = {
-  id: Scalars['Float'];
+  id: Scalars['Int'];
 };
 
 export type CreateUserInputs = {
@@ -120,8 +120,21 @@ export type ProductsQuery = (
   { __typename?: 'Query' }
   & { products: Array<(
     { __typename?: 'Product' }
-    & Pick<Product, 'id' | 'name'>
+    & Pick<Product, 'id' | 'name' | 'price'>
   )> }
+);
+
+export type ProductQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type ProductQuery = (
+  { __typename?: 'Query' }
+  & { product: (
+    { __typename?: 'Product' }
+    & Pick<Product, 'id' | 'name' | 'price'>
+  ) }
 );
 
 export type CreateProductMutationVariables = Exact<{
@@ -133,6 +146,20 @@ export type CreateProductMutationVariables = Exact<{
 export type CreateProductMutation = (
   { __typename?: 'Mutation' }
   & { createProduct: (
+    { __typename?: 'Product' }
+    & Pick<Product, 'id' | 'name' | 'price'>
+  ) }
+);
+
+export type UpdateProductMutationVariables = Exact<{
+  id: Scalars['Int'];
+  data: UpdateProductInput;
+}>;
+
+
+export type UpdateProductMutation = (
+  { __typename?: 'Mutation' }
+  & { updateProduct: (
     { __typename?: 'Product' }
     & Pick<Product, 'id' | 'name' | 'price'>
   ) }
@@ -155,6 +182,7 @@ export const ProductsDocument = gql`
   products {
     id
     name
+    price
   }
 }
     `;
@@ -183,6 +211,41 @@ export function useProductsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHoo
 export type ProductsQueryHookResult = ReturnType<typeof useProductsQuery>;
 export type ProductsLazyQueryHookResult = ReturnType<typeof useProductsLazyQuery>;
 export type ProductsQueryResult = ApolloReactCommon.QueryResult<ProductsQuery, ProductsQueryVariables>;
+export const ProductDocument = gql`
+    query PRODUCT($id: Int!) {
+  product(id: $id) {
+    id
+    name
+    price
+  }
+}
+    `;
+
+/**
+ * __useProductQuery__
+ *
+ * To run a query within a React component, call `useProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useProductQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ProductQuery, ProductQueryVariables>) {
+        return ApolloReactHooks.useQuery<ProductQuery, ProductQueryVariables>(ProductDocument, baseOptions);
+      }
+export function useProductLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ProductQuery, ProductQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ProductQuery, ProductQueryVariables>(ProductDocument, baseOptions);
+        }
+export type ProductQueryHookResult = ReturnType<typeof useProductQuery>;
+export type ProductLazyQueryHookResult = ReturnType<typeof useProductLazyQuery>;
+export type ProductQueryResult = ApolloReactCommon.QueryResult<ProductQuery, ProductQueryVariables>;
 export const CreateProductDocument = gql`
     mutation createProduct($name: String!, $price: Float!) {
   createProduct(data: {name: $name, price: $price}) {
@@ -218,6 +281,41 @@ export function useCreateProductMutation(baseOptions?: ApolloReactHooks.Mutation
 export type CreateProductMutationHookResult = ReturnType<typeof useCreateProductMutation>;
 export type CreateProductMutationResult = ApolloReactCommon.MutationResult<CreateProductMutation>;
 export type CreateProductMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateProductMutation, CreateProductMutationVariables>;
+export const UpdateProductDocument = gql`
+    mutation updateProduct($id: Int!, $data: UpdateProductInput!) {
+  updateProduct(id: $id, data: $data) {
+    id
+    name
+    price
+  }
+}
+    `;
+export type UpdateProductMutationFn = ApolloReactCommon.MutationFunction<UpdateProductMutation, UpdateProductMutationVariables>;
+
+/**
+ * __useUpdateProductMutation__
+ *
+ * To run a mutation, you first call `useUpdateProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProductMutation, { data, loading, error }] = useUpdateProductMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateProductMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateProductMutation, UpdateProductMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateProductMutation, UpdateProductMutationVariables>(UpdateProductDocument, baseOptions);
+      }
+export type UpdateProductMutationHookResult = ReturnType<typeof useUpdateProductMutation>;
+export type UpdateProductMutationResult = ApolloReactCommon.MutationResult<UpdateProductMutation>;
+export type UpdateProductMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateProductMutation, UpdateProductMutationVariables>;
 export const MainDocument = gql`
     query Main {
   products {
