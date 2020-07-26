@@ -1,5 +1,6 @@
 import React from 'react';
 import { NextPage } from 'next';
+
 import DashboardLayout from '../../../layouts/DashboardLayout';
 import { ProductsPage } from '../../../modules/dashboard/products';
 
