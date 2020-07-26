@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import { gql, useQuery } from '@apollo/client';
 
 const QUERY = gql`
-  query Main {
+  query Main2 {
     users {
       id
       email

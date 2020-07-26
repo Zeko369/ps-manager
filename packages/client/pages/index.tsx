@@ -1,14 +1,7 @@
 import { NextPage } from 'next';
 import { gql, useQuery } from '@apollo/client';
 
-const QUERY = gql`
-  query Main {
-    products {
-      id
-      name
-    }
-  }
-`;
+import { QUERY } from '../modules/users/query';
 
 const Home: NextPage = () => {
   const { loading, error, data } = useQuery(QUERY);
