@@ -1,13 +1,21 @@
 import { Entity, Column } from 'typeorm';
-import { ObjectType, Field } from 'type-graphql';
+import { ObjectType, Field, registerEnumType } from 'type-graphql';
 
 import { Model } from './Model';
+
+export enum Role {
+  ADMIN = 'admin',
+  USER = 'user'
+}
+
+registerEnumType(Role, { name: 'Role' });
 
 interface IUser {
   email: string;
   password: string;
   firstName: string;
   lastName: string;
+  role?: Role;
 }
 
 @Entity()
@@ -25,6 +33,10 @@ export class User extends Model {
   @Column({ name: 'last_name' })
   lastName: string;
 
+  @Field(() => Role)
+  @Column({ type: 'enum', enum: Role, default: Role.USER })
+  role: Role;
+
   @Column()
   password: string;
 
@@ -40,6 +52,7 @@ export class User extends Model {
       this.password = props.password;
       this.firstName = props.firstName;
       this.lastName = props.lastName;
+      this.role = props.role || Role.USER;
     }
   }
 }

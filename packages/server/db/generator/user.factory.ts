@@ -1,6 +1,6 @@
 import { name } from 'faker';
 import { hash } from '../../src/lib/hash';
-import { User } from '../../src/models/User';
+import { User, Role } from '../../src/models/User';
 
 const createUsers = async (): Promise<User[]> => {
   const hashedPassword = await hash('foobar');
@@ -9,7 +9,8 @@ const createUsers = async (): Promise<User[]> => {
     email: 'foo@bar.com',
     password: hashedPassword,
     firstName: name.firstName(),
-    lastName: name.lastName()
+    lastName: name.lastName(),
+    role: Role.ADMIN
   });
 
   const user = new User({
