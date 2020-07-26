@@ -16,6 +16,7 @@ interface IDiscount {
 }
 
 // @Entity
+// @ObjectType()
 export class Discount extends Model {
   @Column({ unique: true })
   slug: string;
