@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import { Resolver, Arg, Mutation } from 'type-graphql';
 import { User } from '../../models/User';
 import { SignUpInput } from './input';
+import { hash } from '../../lib/hash';
 
 @Resolver()
 export class AuthResolver {
@@ -9,7 +10,7 @@ export class AuthResolver {
   async signUp(@Arg('data') data: SignUpInput) {
     const { email, password, firstName, lastName } = data;
     const lowerEmail = email.toLowerCase();
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await hash(password);
 
     let user = await User.findOne({ where: { email: lowerEmail } });
     if (user) {
