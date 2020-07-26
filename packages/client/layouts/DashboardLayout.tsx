@@ -1,10 +1,10 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
+import { DashboardNavbar } from '../components/Navbar';
 
 const DashboardLayout: React.FC = ({ children }) => {
   return (
     <>
-      <Navbar />
+      <DashboardNavbar />
       {children}
     </>
   );

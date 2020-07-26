@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Heading, Flex, Text, Button } from '@chakra-ui/core';
+import { Box, Heading, Flex, Text, Button, Link } from '@chakra-ui/core';
+import NextLink from 'next/link';
 
 const MenuItems = ({ children }) => (
   <Text mt={{ base: 4, md: 0 }} mr={6} display="block">
@@ -7,7 +8,17 @@ const MenuItems = ({ children }) => (
   </Text>
 );
 
-const Navbar = (props) => {
+export interface ILink {
+  text: string;
+  href: string;
+}
+
+interface BaseNavbarProps {
+  links: ILink[];
+  right?: React.ReactNode;
+}
+
+const BaseNavbar: React.FC<BaseNavbarProps> = ({ links, right, ...props }) => {
   const [show, setShow] = React.useState(false);
   const handleToggle = () => setShow(!show);
 
@@ -23,9 +34,11 @@ const Navbar = (props) => {
       {...props}
     >
       <Flex align="center" mr={5}>
-        <Heading as="h1" size="lg">
-          Admin
-        </Heading>
+        <NextLink href="/dashboard">
+          <Heading as="h1" size="lg">
+            Admin
+          </Heading>
+        </NextLink>
       </Flex>
 
       <Box display={{ sm: 'block', md: 'none' }} onClick={handleToggle}>
@@ -41,9 +54,13 @@ const Navbar = (props) => {
         alignItems="center"
         flexGrow={1}
       >
-        <MenuItems>Docs</MenuItems>
-        <MenuItems>Examples</MenuItems>
-        <MenuItems>Blog</MenuItems>
+        {links.map((link) => (
+          <MenuItems>
+            <NextLink href={link.href}>
+              <Link>{link.text}</Link>
+            </NextLink>
+          </MenuItems>
+        ))}
       </Box>
 
       <Box display={{ sm: show ? 'block' : 'none', md: 'block' }} mt={{ base: 4, md: 0 }}>
@@ -55,4 +72,4 @@ const Navbar = (props) => {
   );
 };
 
-export default Navbar;
+export default BaseNavbar;
