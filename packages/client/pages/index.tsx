@@ -1,10 +1,40 @@
 import { NextPage } from 'next';
+import { gql, useQuery } from '@apollo/client';
+
+const QUERY = gql`
+  query Main {
+    products {
+      id
+      name
+    }
+  }
+`;
 
 const Home: NextPage = () => {
+  const { loading, error, data } = useQuery(QUERY);
+
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
+
+  if (error) {
+    return (
+      <>
+        <h2>error...</h2>
+        <code>{error}</code>
+      </>
+    );
+  }
+
   return (
-    <h1>
-      Hello world {foobar} - {bar}
-    </h1>
+    <div>
+      <h2>Products: </h2>
+      <ul>
+        {data.products.map((product) => (
+          <li key={product.id}>{product.name}</li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
