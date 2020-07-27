@@ -30,6 +30,10 @@ export class Discount extends Model {
   @Column({ type: 'enum', enum: DiscountType, default: DiscountType.PERCENTAGE })
   type: DiscountType;
 
+  // -1 unlimited
+  @Column({ default: -1 })
+  uses: number;
+
   @Column({ nullable: true })
   limit?: number;
 
