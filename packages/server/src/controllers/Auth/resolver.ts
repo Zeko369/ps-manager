@@ -42,7 +42,7 @@ export class AuthResolver {
     const valid = await bcrypt.compare(password, user.password);
 
     if (!valid) {
-      throw new Error('INVALID_PASSWORD/Incorrect email address or password.');
+      throw new Error('INVALID_PASSWORD/Incorrect password');
     }
 
     const token = jwt.sign({ userId: user.id }, 'hello-world');
