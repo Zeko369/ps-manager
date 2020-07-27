@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client';
 import { USERS } from '../graphql/queries';
 import { Flex, Heading, List, ListItem } from '@chakra-ui/core';
 
-import { UsersQuery } from '../../../../graphql';
+import { UsersQuery } from '../../../../generated';
 
 export const UsersPage: React.FC = () => {
   const { loading, error, data } = useQuery<UsersQuery>(USERS);

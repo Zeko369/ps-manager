@@ -8,7 +8,7 @@ import {
   ProductQuery,
   UpdateProductMutation,
   UpdateProductMutationVariables
-} from '../../../../graphql';
+} from '../../../../generated';
 import Form, { IFormData } from '../components/Form';
 
 const getId = (query: Record<string, string | string[]>): null | number => {

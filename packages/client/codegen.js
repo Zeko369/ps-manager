@@ -1,17 +1,9 @@
 module.exports = {
-  schema: [
-    {
-      'http://localhost:4000/graphql': {
-        // headers: {
-        //     Authorization: 'Bearer ' + process.env.AUTH_TOKEN,
-        // },
-      }
-    }
-  ],
+  schema: [{ 'http://localhost:4000/graphql': {} }],
   documents: ['./**/*.tsx', './**/*.ts'],
   overwrite: true,
   generates: {
-    './graphql/index.tsx': {
+    './generated/index.tsx': {
       plugins: ['typescript', 'typescript-operations', 'typescript-react-apollo'],
       config: {
         skipTypename: false,

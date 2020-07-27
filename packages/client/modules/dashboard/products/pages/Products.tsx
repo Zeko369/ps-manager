@@ -4,7 +4,7 @@ import { Heading, List, ListItem, Flex, Button } from '@chakra-ui/core';
 
 import Link from '../../../../components/Link';
 import { PRODUCTS_QUERY } from '../graphql/queries';
-import { ProductsQuery } from '../../../../graphql';
+import { ProductsQuery } from '../../../../generated';
 
 export const ProductsPage: React.FC = () => {
   const { loading, error, data } = useQuery<ProductsQuery>(PRODUCTS_QUERY);

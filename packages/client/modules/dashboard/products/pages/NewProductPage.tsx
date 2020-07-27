@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/dist/client/router';
 import { CREATE_PRODUCT, PRODUCTS_QUERY } from '../graphql/queries';
 
-import { CreateProductMutation, CreateProductMutationVariables } from '../../../../graphql';
+import { CreateProductMutation, CreateProductMutationVariables } from '../../../../generated';
 import Form, { IFormData } from '../components/Form';
 
 export const NewProductPage: React.FC = () => {

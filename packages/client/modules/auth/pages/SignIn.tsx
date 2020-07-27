@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { FormControl, FormLabel, Input, Button } from '@chakra-ui/core';
 import { useQuery, useMutation, ApolloError } from '@apollo/client';
 import { ME, SIGN_IN } from '../graphql/queries';
-import { MeQuery, SignInMutation, SignInMutationVariables } from 'client/graphql';
+import { MeQuery, SignInMutation, SignInMutationVariables } from 'client/generated';
 
 interface SignInForm {
   email: string;
