@@ -25,10 +25,7 @@ export const ProductsPage: React.FC = () => {
         <List styleType="disc">
           {data.products.map((product) => (
             <ListItem key={product.id}>
-              <Link
-                href="/dashboard/products/[id]/edit"
-                as={`/dashboard/products/${product.id}/edit`}
-              >
+              <Link href="/admin/products/[id]/edit" as={`/admin/products/${product.id}/edit`}>
                 <a>{`${product.name} -> $${product.price}`}</a>
               </Link>
             </ListItem>

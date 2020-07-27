@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@chakra-ui/core';
 import { AdminNavbar } from '../components/Navbar';
 
-const DashboardLayout: React.FC = ({ children }) => {
+const AdminLayout: React.FC = ({ children }) => {
   return (
     <>
       <AdminNavbar />
@@ -13,4 +13,4 @@ const DashboardLayout: React.FC = ({ children }) => {
   );
 };
 
-export default DashboardLayout;
+export default AdminLayout;

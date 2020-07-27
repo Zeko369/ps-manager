@@ -6,8 +6,8 @@ import { useRouter } from 'next/router';
 import { ME } from '../../modules/auth/graphql/queries';
 
 const links: ILink[] = [
-  { text: 'Products', href: '/dashboard/products' },
-  { text: 'Users', href: '/dashboard/users' }
+  { text: 'Products', href: '/admin/products' },
+  { text: 'Users', href: '/admin/users' }
 ];
 
 export const AdminNavbar: React.FC = () => {

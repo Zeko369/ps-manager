@@ -21,14 +21,14 @@ export const SignIn: React.FC = () => {
 
   useEffect(() => {
     if (!loading && !error && data.me) {
-      router.push('/dashboard');
+      router.push('/admin');
     }
   }, [loading, error, data]);
 
   const onSubmit = async (data: SignInForm): Promise<void> => {
     try {
       await signIn({ variables: data });
-      router.push('/dashboard');
+      router.push('/admin');
     } catch (err) {
       const error = err as ApolloError;
       console.error(error.message);

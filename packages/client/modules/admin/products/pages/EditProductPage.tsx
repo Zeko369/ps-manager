@@ -37,7 +37,7 @@ export const EditProductPage: React.FC = () => {
 
   const onSubmit = async (data: IFormData) => {
     await updateProduct({ variables: { id, data: { ...data, price: parseFloat(data.price) } } });
-    router.push('/dashboard/products');
+    router.push('/admin/products');
   };
 
   if (loading) return <Heading>Loading...</Heading>;

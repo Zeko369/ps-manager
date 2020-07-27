@@ -35,7 +35,7 @@ const BaseNavbar: React.FC<BaseNavbarProps> = ({ links, right, ...props }) => {
       {...props}
     >
       <Flex align="center" mr={5}>
-        <NextLink href="/dashboard">
+        <NextLink href="/admin">
           <Heading as="h1" size="lg">
             Admin
           </Heading>

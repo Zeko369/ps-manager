@@ -1,15 +1,15 @@
 import React from 'react';
 import { NextPage } from 'next';
 
-import DashboardLayout from '../../../layouts/DashboardLayout';
+import AdminLayout from '../../../layouts/AdminLayout';
 import { NewProductPage } from '../../../modules/admin/products';
 
-const DashboardProductNew: NextPage = () => {
+const AdminProductNew: NextPage = () => {
   return (
-    <DashboardLayout>
+    <AdminLayout>
       <NewProductPage />
-    </DashboardLayout>
+    </AdminLayout>
   );
 };
 
-export default DashboardProductNew;
+export default AdminProductNew;

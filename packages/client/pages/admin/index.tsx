@@ -1,17 +1,17 @@
 import React from 'react';
 import { NextPage } from 'next';
-import DashboardLayout from '../../layouts/DashboardLayout';
 import { Heading } from '@chakra-ui/core';
+import AdminLayout from '../../layouts/AdminLayout';
 import PrivateRoute from '../../router/PrivateRoute';
 
-const DashboardHome: NextPage = () => {
+const AdminHome: NextPage = () => {
   return (
     <PrivateRoute>
-      <DashboardLayout>
-        <Heading>Dashboard home</Heading>
-      </DashboardLayout>
+      <AdminLayout>
+        <Heading>Admin home</Heading>
+      </AdminLayout>
     </PrivateRoute>
   );
 };
 
-export default DashboardHome;
+export default AdminHome;

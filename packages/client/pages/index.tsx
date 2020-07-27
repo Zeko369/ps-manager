@@ -5,7 +5,7 @@ import { Box } from '@chakra-ui/core';
 const Home: NextPage = () => {
   return (
     <Box>
-      <Link href="/dashboard">Dashboard</Link>
+      <Link href="/admin">Dashboard</Link>
     </Box>
   );
 };
