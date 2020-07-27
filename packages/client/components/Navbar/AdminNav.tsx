@@ -10,7 +10,7 @@ const links: ILink[] = [
   { text: 'Users', href: '/dashboard/users' }
 ];
 
-export const DashboardNavbar: React.FC = () => {
+export const AdminNavbar: React.FC = () => {
   const router = useRouter();
   const { data } = useMeQuery();
   const [signOut] = useSignOutMutation({ refetchQueries: [{ query: ME }] });

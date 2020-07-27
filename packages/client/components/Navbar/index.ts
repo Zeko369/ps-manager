@@ -1,1 +1,1 @@
-export { DashboardNavbar } from './DashboardNav';
+export { AdminNavbar } from './AdminNav';
