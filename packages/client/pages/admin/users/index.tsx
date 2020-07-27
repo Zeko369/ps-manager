@@ -2,14 +2,14 @@ import React from 'react';
 import { NextPage } from 'next';
 
 import DashboardLayout from '../../../layouts/DashboardLayout';
-import { NewProductPage } from '../../../modules/dashboard/products';
+import { UsersPage } from '../../../modules/admin/users';
 
-const DashboardProductNew: NextPage = () => {
+const DashboardProducts: NextPage = () => {
   return (
     <DashboardLayout>
-      <NewProductPage />
+      <UsersPage />
     </DashboardLayout>
   );
 };
 
-export default DashboardProductNew;
+export default DashboardProducts;

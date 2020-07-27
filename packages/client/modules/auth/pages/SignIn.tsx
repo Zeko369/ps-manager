@@ -1,15 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormControl, FormLabel, Input, Button } from '@chakra-ui/core';
-import { useMutation, ApolloError } from '@apollo/client';
+import { FormControl, FormLabel, Input, Button, Box } from '@chakra-ui/core';
+import { ApolloError } from '@apollo/client';
+import { useRouter } from 'next/router';
 
-import { ME, SIGN_IN } from '../graphql/queries';
-import {
-  SignInMutation,
-  SignInMutationVariables,
-  useMeQuery,
-  useMeLazyQuery
-} from '../../../generated';
+import { ME } from '../graphql/queries';
+import { useMeQuery, useSignInMutation } from '../../../generated';
 
 interface SignInForm {
   email: string;
@@ -17,52 +13,55 @@ interface SignInForm {
 }
 
 export const SignIn: React.FC = () => {
+  const router = useRouter();
+  const { loading, error, data } = useMeQuery();
   const { register, handleSubmit, formState } = useForm<SignInForm>();
 
-  const { loading, error, data } = useMeQuery();
-  const [query] = useMeLazyQuery();
-  const [signIn] = useMutation<SignInMutation, SignInMutationVariables>(SIGN_IN);
+  const [signIn] = useSignInMutation({ refetchQueries: [{ query: ME }] });
+
+  useEffect(() => {
+    if (!loading && !error && data.me) {
+      router.push('/dashboard');
+    }
+  }, [loading, error, data]);
 
   const onSubmit = async (data: SignInForm): Promise<void> => {
     try {
-      const res = await signIn({ variables: data });
-      console.log(res);
+      await signIn({ variables: data });
+      router.push('/dashboard');
     } catch (err) {
       const error = err as ApolloError;
       console.error(error.message);
     }
   };
 
-  if (loading) return <h1>Loading...</h1>;
-  if (error) return <h1>Error...</h1>;
-  if (data.me) return <h1>Already logged in</h1>;
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Button onClick={() => query()}>Click</Button>
-      <FormControl>
-        <FormLabel htmlFor="email">Email</FormLabel>
-        <Input
-          name="email"
-          placeholder="email"
-          ref={register({ required: true })}
-          isRequired
-          type="email"
-        />
-      </FormControl>
-      <FormControl>
-        <FormLabel htmlFor="password">Password</FormLabel>
-        <Input
-          name="password"
-          placeholder="password"
-          ref={register({ required: true })}
-          isRequired
-          type="password"
-        />
-      </FormControl>
-      <Button mt={4} variantColor="teal" isLoading={formState.isSubmitting} type="submit">
-        Submit
-      </Button>
-    </form>
+    <Box w="90%" maxW="1000px" margin="0 auto">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormControl>
+          <FormLabel htmlFor="email">Email</FormLabel>
+          <Input
+            name="email"
+            placeholder="email"
+            ref={register({ required: true })}
+            isRequired
+            type="email"
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel htmlFor="password">Password</FormLabel>
+          <Input
+            name="password"
+            placeholder="password"
+            ref={register({ required: true })}
+            isRequired
+            type="password"
+          />
+        </FormControl>
+        <Button mt={4} variantColor="teal" isLoading={formState.isSubmitting} type="submit">
+          Submit
+        </Button>
+      </form>
+    </Box>
   );
 };

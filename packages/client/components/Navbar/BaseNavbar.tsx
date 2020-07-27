@@ -63,9 +63,7 @@ const BaseNavbar: React.FC<BaseNavbarProps> = ({ links, right, ...props }) => {
       </Box>
 
       <Box display={{ sm: show ? 'block' : 'none', md: 'block' }} mt={{ base: 4, md: 0 }}>
-        {/* <Button bg="transparent" border="1px">
-          Create account
-        </Button> */}
+        {right}
       </Box>
     </Flex>
   );
