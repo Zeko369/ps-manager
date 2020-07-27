@@ -15,7 +15,7 @@ async function main() {
   const connection = await createConnection();
   const app = express();
 
-  app.use(cors());
+  app.use(cors({ credentials: true, origin: true }));
 
   const schema = await buildSchema({ resolvers, validate: false });
   const server = new ApolloServer({

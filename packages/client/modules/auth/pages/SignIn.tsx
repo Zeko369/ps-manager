@@ -1,9 +1,15 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FormControl, FormLabel, Input, Button } from '@chakra-ui/core';
-import { useQuery, useMutation, ApolloError } from '@apollo/client';
+import { useMutation, ApolloError } from '@apollo/client';
+
 import { ME, SIGN_IN } from '../graphql/queries';
-import { MeQuery, SignInMutation, SignInMutationVariables } from 'client/generated';
+import {
+  SignInMutation,
+  SignInMutationVariables,
+  useMeQuery,
+  useMeLazyQuery
+} from '../../../generated';
 
 interface SignInForm {
   email: string;
@@ -13,7 +19,8 @@ interface SignInForm {
 export const SignIn: React.FC = () => {
   const { register, handleSubmit, formState } = useForm<SignInForm>();
 
-  const { loading, error, data } = useQuery<MeQuery>(ME);
+  const { loading, error, data } = useMeQuery();
+  const [query] = useMeLazyQuery();
   const [signIn] = useMutation<SignInMutation, SignInMutationVariables>(SIGN_IN);
 
   const onSubmit = async (data: SignInForm): Promise<void> => {
@@ -26,8 +33,13 @@ export const SignIn: React.FC = () => {
     }
   };
 
+  if (loading) return <h1>Loading...</h1>;
+  if (error) return <h1>Error...</h1>;
+  if (data.me) return <h1>Already logged in</h1>;
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <Button onClick={() => query()}>Click</Button>
       <FormControl>
         <FormLabel htmlFor="email">Email</FormLabel>
         <Input
