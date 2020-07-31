@@ -20,9 +20,7 @@ export class SubscriptionItemsResolver {
 
   @Mutation(() => SubscriptionItem)
   async createSubscriptionItem(@Arg('data') data: CreateSubscriptionItemInput) {
-    console.log(data);
-
-    const { productIds, amounts, subscriptionTypeId } = data;
+    const { productIds, amounts, subscriptionTypeId, name } = data;
 
     if (productIds.length !== amounts.length) throw new Error('Wrong count of one of arrays');
 
@@ -32,7 +30,7 @@ export class SubscriptionItemsResolver {
     if (!products || products.length !== productIds.length) throw new Error('Product not found!');
     if (!subscriptionType) throw new Error('SubscriptionType not found!');
 
-    const subscriptionItem = new SubscriptionItem({ subscriptionType });
+    const subscriptionItem = new SubscriptionItem({ subscriptionType, name });
     await subscriptionItem.save();
 
     const subscriptionItemProducts = await Promise.all(

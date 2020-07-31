@@ -23,7 +23,7 @@ const createSubscriptionTypes = async (products: Product[]): Promise<Subscriptio
       const rand1 = Math.floor(Math.random() * products.length);
       const rand2 = rand1 === products.length - 1 ? 0 : rand1 + 1;
 
-      const subscriptionItem = new SubscriptionItem({ subscriptionType });
+      const subscriptionItem = new SubscriptionItem({ subscriptionType, name: lorem.word() });
       await subscriptionItem.save();
 
       const sip1 = new SubscriptionItemProduct({

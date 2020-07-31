@@ -2,6 +2,9 @@ import { InputType, Field, Int } from 'type-graphql';
 
 @InputType()
 export class CreateSubscriptionItemInput {
+  @Field(() => String)
+  name: string;
+
   @Field(() => [Int])
   productIds: number[];
 
@@ -14,6 +17,9 @@ export class CreateSubscriptionItemInput {
 
 @InputType()
 export class UpdateSubscriptionItemInput {
+  @Field(() => String, { nullable: true })
+  name?: string;
+
   @Field(() => [Int], { nullable: true })
   productIds?: number[];
 
