@@ -8,7 +8,7 @@ interface ISubscriptionTypeProps {
   slug: string;
   name?: string;
   price?: number;
-  subscriptionItems: SubscriptionItem[];
+  subscriptionItems?: SubscriptionItem[];
   subscriptionItemsOrder?: number[];
 }
 
@@ -33,7 +33,7 @@ export class SubscriptionType extends Model {
   constructor(props?: ISubscriptionTypeProps) {
     super();
     if (props) {
-      const { slug, name, price, subscriptionItems, subscriptionItemsOrder } = props;
+      const { slug, name, price, subscriptionItems = [], subscriptionItemsOrder } = props;
 
       this.slug = slug;
       this.name = name || slug;
