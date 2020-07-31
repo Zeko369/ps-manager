@@ -1,7 +1,9 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, ManyToMany, OneToMany } from 'typeorm';
 import { ObjectType, Field } from 'type-graphql';
 
 import { Model } from './Model';
+import { SubscriptionType } from './SubscriptionType';
+import { SubscriptionItem } from './SubscriptionItem';
 
 interface IProduct {
   name: string;
@@ -18,6 +20,9 @@ export class Product extends Model {
   @Field(() => String)
   @Column({ type: 'float' })
   price: number;
+
+  @OneToMany((type) => SubscriptionItem, (subscriptionItem) => subscriptionItem.product)
+  subscriptionItems: SubscriptionItem[];
 
   constructor(props?: IProduct) {
     super();
