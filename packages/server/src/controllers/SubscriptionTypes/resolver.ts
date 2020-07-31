@@ -8,7 +8,10 @@ import { CreateSubscriptionTypeInput, UpdateSubscriptionTypeInput } from './inpu
 export class SubscriptionTypesResolver {
   @Query(() => [SubscriptionType])
   subscriptionTypes() {
-    return SubscriptionType.find({ order: { createdAt: 'DESC' } });
+    return SubscriptionType.find({
+      order: { createdAt: 'DESC' },
+      relations: ['subscriptionItems', 'subscriptionItems.product']
+    });
   }
 
   @Query(() => SubscriptionType)

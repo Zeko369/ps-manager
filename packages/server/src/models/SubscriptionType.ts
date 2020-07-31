@@ -1,5 +1,5 @@
 import { Entity, Column, OneToMany } from 'typeorm';
-import { ObjectType } from 'type-graphql';
+import { ObjectType, Field, Float } from 'type-graphql';
 
 import { Model } from './Model';
 import { SubscriptionItem } from './SubscriptionItem';
@@ -15,15 +15,19 @@ interface ISubscriptionTypeProps {
 @Entity()
 @ObjectType()
 export class SubscriptionType extends Model {
+  @Field(() => String)
   @Column({ unique: true })
   slug: string;
 
+  @Field(() => String)
   @Column()
   name: string;
 
+  @Field(() => Float, { nullable: true })
   @Column({ type: 'float', nullable: true })
   price?: number;
 
+  @Field(() => [SubscriptionItem])
   @OneToMany((type) => SubscriptionItem, (subscriptionItem) => subscriptionItem.subscriptionType)
   subscriptionItems: SubscriptionItem[];
 
