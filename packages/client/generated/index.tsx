@@ -307,6 +307,20 @@ export type SubscriptionTypesQuery = (
   )> }
 );
 
+export type CreateSubscriptionTypeMutationVariables = Exact<{
+  name?: Maybe<Scalars['String']>;
+  slug: Scalars['String'];
+}>;
+
+
+export type CreateSubscriptionTypeMutation = (
+  { __typename?: 'Mutation' }
+  & { createSubscriptionType: (
+    { __typename?: 'SubscriptionType' }
+    & Pick<SubscriptionType, 'id' | 'name' | 'slug'>
+  ) }
+);
+
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -613,6 +627,41 @@ export function useSubscriptionTypesLazyQuery(baseOptions?: ApolloReactHooks.Laz
 export type SubscriptionTypesQueryHookResult = ReturnType<typeof useSubscriptionTypesQuery>;
 export type SubscriptionTypesLazyQueryHookResult = ReturnType<typeof useSubscriptionTypesLazyQuery>;
 export type SubscriptionTypesQueryResult = ApolloReactCommon.QueryResult<SubscriptionTypesQuery, SubscriptionTypesQueryVariables>;
+export const CreateSubscriptionTypeDocument = gql`
+    mutation createSubscriptionType($name: String, $slug: String!) {
+  createSubscriptionType(data: {name: $name, slug: $slug}) {
+    id
+    name
+    slug
+  }
+}
+    `;
+export type CreateSubscriptionTypeMutationFn = ApolloReactCommon.MutationFunction<CreateSubscriptionTypeMutation, CreateSubscriptionTypeMutationVariables>;
+
+/**
+ * __useCreateSubscriptionTypeMutation__
+ *
+ * To run a mutation, you first call `useCreateSubscriptionTypeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSubscriptionTypeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createSubscriptionTypeMutation, { data, loading, error }] = useCreateSubscriptionTypeMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useCreateSubscriptionTypeMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateSubscriptionTypeMutation, CreateSubscriptionTypeMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateSubscriptionTypeMutation, CreateSubscriptionTypeMutationVariables>(CreateSubscriptionTypeDocument, baseOptions);
+      }
+export type CreateSubscriptionTypeMutationHookResult = ReturnType<typeof useCreateSubscriptionTypeMutation>;
+export type CreateSubscriptionTypeMutationResult = ApolloReactCommon.MutationResult<CreateSubscriptionTypeMutation>;
+export type CreateSubscriptionTypeMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateSubscriptionTypeMutation, CreateSubscriptionTypeMutationVariables>;
 export const UsersDocument = gql`
     query USERS {
   users {

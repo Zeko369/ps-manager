@@ -19,3 +19,13 @@ export const SUBSCRIPTION_TYPES = gql`
     }
   }
 `;
+
+export const CREATE_SUBSCRIPTION_TYPE = gql`
+  mutation createSubscriptionType($name: String, $slug: String!) {
+    createSubscriptionType(data: { name: $name, slug: $slug }) {
+      id
+      name
+      slug
+    }
+  }
+`;
