@@ -3,12 +3,6 @@ import { Box, Heading, Flex, Text } from '@chakra-ui/core';
 import NextLink from 'next/link';
 import Link from '../Link';
 
-const MenuItems = ({ children }) => (
-  <Text mt={{ base: 4, md: 0 }} mr={6} display="block">
-    {children}
-  </Text>
-);
-
 export interface ILink {
   text: string;
   href: string;
@@ -36,9 +30,11 @@ const BaseNavbar: React.FC<BaseNavbarProps> = ({ links, right, ...props }) => {
     >
       <Flex align="center" mr={5}>
         <NextLink href="/admin">
-          <Heading as="h1" size="lg">
-            Admin
-          </Heading>
+          <a>
+            <Heading as="h1" size="lg" cursor="pointer">
+              Admin
+            </Heading>
+          </a>
         </NextLink>
       </Flex>
 
@@ -56,9 +52,15 @@ const BaseNavbar: React.FC<BaseNavbarProps> = ({ links, right, ...props }) => {
         flexGrow={1}
       >
         {links.map((link) => (
-          <MenuItems key={`${link.href}-${link.text}`}>
-            <Link href={link.href}>{link.text}</Link>
-          </MenuItems>
+          <Link
+            key={`${link.text} ${link.href}`}
+            href={link.href}
+            mt={{ base: 4, md: 0 }}
+            mr={6}
+            display="block"
+          >
+            {link.text}
+          </Link>
         ))}
       </Box>
 

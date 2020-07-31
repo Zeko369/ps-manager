@@ -27,7 +27,7 @@ const LinkingComponent: React.FC<{ as?: string; href: string }> = ({
   }
 
   return (
-    <NextLink href={href} as={as}>
+    <NextLink href={href} passHref as={as}>
       {children}
     </NextLink>
   );
@@ -48,8 +48,10 @@ export interface LinkButtonProps extends Omit<ChakraButtonProps, 'as'> {
 
 const LinkButton: React.FC<LinkButtonProps> = ({ as, href, children, ...props }) => {
   return (
-    <NextLink href={href} as={as}>
-      <Button {...props}>{children}</Button>
+    <NextLink href={href} passHref as={as}>
+      <Button as="a" {...props}>
+        {children}
+      </Button>
     </NextLink>
   );
 };
@@ -61,8 +63,10 @@ export interface LinkButtonIconProps extends Omit<ChakraButtonIconProps, 'as'> {
 
 const LinkIconButton: React.FC<LinkButtonIconProps> = ({ as, href, children, ...props }) => {
   return (
-    <NextLink href={href} as={as}>
-      <IconButton {...props}>{children}</IconButton>
+    <NextLink href={href} passHref as={as}>
+      <IconButton as="a" {...props}>
+        {children}
+      </IconButton>
     </NextLink>
   );
 };
