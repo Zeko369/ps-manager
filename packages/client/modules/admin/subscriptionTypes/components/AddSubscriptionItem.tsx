@@ -46,12 +46,27 @@ const AddSubscriptionItem: React.FC<IAddSubscriptionItemProps> = ({
 
   const add = (productId: number) => () => {
     if (!added.includes(productId)) {
+      if (
+        added.length === 0 ||
+        data.products.find((p) => p.id === added[added.length - 1]).name === name
+      ) {
+        setName(data.products.find((p) => p.id === productId).name);
+      }
+
       setAdded((x) => [...x, productId]);
       setAmounts((x) => ({ ...x, [productId]: 1 }));
     }
   };
 
   const remove = (productId: number) => () => {
+    if (added.length === 2) {
+      setName(data.products.find((p) => p.id === added.find((a) => a !== productId)).name);
+    } else if (added.length === 1 && data.products.find((p) => p.id === added[0]).name === name) {
+      setName('');
+    } else if (data.products.find((p) => p.id === productId).name === name) {
+      setName(data.products.find((p) => p.id === added.filter((a) => a !== productId)[0]).name);
+    }
+
     setAdded((x) => x.filter((p) => p !== productId));
   };
 
