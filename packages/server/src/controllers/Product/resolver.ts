@@ -1,5 +1,6 @@
-import { Product } from '../../models/Product';
 import { Query, Resolver, Arg, Mutation, Args, Int } from 'type-graphql';
+import { formatPrice } from '@root/shared/src';
+import { Product } from '../../models/Product';
 import { CreateProductInputs, UpdateProductInput } from './inputs';
 
 @Resolver()
@@ -16,7 +17,7 @@ export class ProductResolver {
 
   @Mutation(() => Product)
   async createProduct(@Arg('data') data: CreateProductInputs) {
-    const product = new Product(data);
+    const product = new Product({ ...data, price: formatPrice(data.price) });
     return product.save();
   }
 
@@ -29,7 +30,9 @@ export class ProductResolver {
     }
 
     product.name = data.name ?? product.name;
-    product.price = data.price ?? product.price;
+    if (data.price) {
+      product.price = formatPrice(data.price);
+    }
 
     return product.save();
   }
