@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { Resolver, Arg, Mutation, Query, Ctx } from 'type-graphql';
 
 import { User } from '../../models/User';
-import { SignUpInput } from './input';
+import { SignUpInput } from './inputs';
 import { hash } from '../../lib/hash';
 import { GQLCtx } from '../../ts/gql';
 
