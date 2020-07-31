@@ -307,6 +307,27 @@ export type SubscriptionTypesQuery = (
   )> }
 );
 
+export type SubscriptionTypeQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type SubscriptionTypeQuery = (
+  { __typename?: 'Query' }
+  & { subscriptionType: (
+    { __typename?: 'SubscriptionType' }
+    & Pick<SubscriptionType, 'id' | 'slug' | 'name' | 'price'>
+    & { subscriptionItems: Array<(
+      { __typename?: 'SubscriptionItem' }
+      & Pick<SubscriptionItem, 'id' | 'amount'>
+      & { product: (
+        { __typename?: 'Product' }
+        & Pick<Product, 'id' | 'name' | 'price'>
+      ) }
+    )> }
+  ) }
+);
+
 export type CreateSubscriptionTypeMutationVariables = Exact<{
   name?: Maybe<Scalars['String']>;
   slug: Scalars['String'];
@@ -316,6 +337,20 @@ export type CreateSubscriptionTypeMutationVariables = Exact<{
 export type CreateSubscriptionTypeMutation = (
   { __typename?: 'Mutation' }
   & { createSubscriptionType: (
+    { __typename?: 'SubscriptionType' }
+    & Pick<SubscriptionType, 'id' | 'name' | 'slug'>
+  ) }
+);
+
+export type UpdateSubscriptionTypeMutationVariables = Exact<{
+  id: Scalars['Int'];
+  data: UpdateSubscriptionTypeInput;
+}>;
+
+
+export type UpdateSubscriptionTypeMutation = (
+  { __typename?: 'Mutation' }
+  & { updateSubscriptionType: (
     { __typename?: 'SubscriptionType' }
     & Pick<SubscriptionType, 'id' | 'name' | 'slug'>
   ) }
@@ -627,6 +662,51 @@ export function useSubscriptionTypesLazyQuery(baseOptions?: ApolloReactHooks.Laz
 export type SubscriptionTypesQueryHookResult = ReturnType<typeof useSubscriptionTypesQuery>;
 export type SubscriptionTypesLazyQueryHookResult = ReturnType<typeof useSubscriptionTypesLazyQuery>;
 export type SubscriptionTypesQueryResult = ApolloReactCommon.QueryResult<SubscriptionTypesQuery, SubscriptionTypesQueryVariables>;
+export const SubscriptionTypeDocument = gql`
+    query subscriptionType($id: Int!) {
+  subscriptionType(id: $id) {
+    id
+    slug
+    name
+    price
+    subscriptionItems {
+      id
+      amount
+      product {
+        id
+        name
+        price
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useSubscriptionTypeQuery__
+ *
+ * To run a query within a React component, call `useSubscriptionTypeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSubscriptionTypeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSubscriptionTypeQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useSubscriptionTypeQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<SubscriptionTypeQuery, SubscriptionTypeQueryVariables>) {
+        return ApolloReactHooks.useQuery<SubscriptionTypeQuery, SubscriptionTypeQueryVariables>(SubscriptionTypeDocument, baseOptions);
+      }
+export function useSubscriptionTypeLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SubscriptionTypeQuery, SubscriptionTypeQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<SubscriptionTypeQuery, SubscriptionTypeQueryVariables>(SubscriptionTypeDocument, baseOptions);
+        }
+export type SubscriptionTypeQueryHookResult = ReturnType<typeof useSubscriptionTypeQuery>;
+export type SubscriptionTypeLazyQueryHookResult = ReturnType<typeof useSubscriptionTypeLazyQuery>;
+export type SubscriptionTypeQueryResult = ApolloReactCommon.QueryResult<SubscriptionTypeQuery, SubscriptionTypeQueryVariables>;
 export const CreateSubscriptionTypeDocument = gql`
     mutation createSubscriptionType($name: String, $slug: String!) {
   createSubscriptionType(data: {name: $name, slug: $slug}) {
@@ -662,6 +742,41 @@ export function useCreateSubscriptionTypeMutation(baseOptions?: ApolloReactHooks
 export type CreateSubscriptionTypeMutationHookResult = ReturnType<typeof useCreateSubscriptionTypeMutation>;
 export type CreateSubscriptionTypeMutationResult = ApolloReactCommon.MutationResult<CreateSubscriptionTypeMutation>;
 export type CreateSubscriptionTypeMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateSubscriptionTypeMutation, CreateSubscriptionTypeMutationVariables>;
+export const UpdateSubscriptionTypeDocument = gql`
+    mutation updateSubscriptionType($id: Int!, $data: UpdateSubscriptionTypeInput!) {
+  updateSubscriptionType(id: $id, data: $data) {
+    id
+    name
+    slug
+  }
+}
+    `;
+export type UpdateSubscriptionTypeMutationFn = ApolloReactCommon.MutationFunction<UpdateSubscriptionTypeMutation, UpdateSubscriptionTypeMutationVariables>;
+
+/**
+ * __useUpdateSubscriptionTypeMutation__
+ *
+ * To run a mutation, you first call `useUpdateSubscriptionTypeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSubscriptionTypeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSubscriptionTypeMutation, { data, loading, error }] = useUpdateSubscriptionTypeMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateSubscriptionTypeMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateSubscriptionTypeMutation, UpdateSubscriptionTypeMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateSubscriptionTypeMutation, UpdateSubscriptionTypeMutationVariables>(UpdateSubscriptionTypeDocument, baseOptions);
+      }
+export type UpdateSubscriptionTypeMutationHookResult = ReturnType<typeof useUpdateSubscriptionTypeMutation>;
+export type UpdateSubscriptionTypeMutationResult = ApolloReactCommon.MutationResult<UpdateSubscriptionTypeMutation>;
+export type UpdateSubscriptionTypeMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateSubscriptionTypeMutation, UpdateSubscriptionTypeMutationVariables>;
 export const UsersDocument = gql`
     query USERS {
   users {

@@ -61,7 +61,13 @@ const ModalStuff: React.FC<IModalStuff> = ({ data, onClose, id }) => {
 
             <ModalFooter>
               <Stack isInline>
-                <Button variantColor="green">Edit</Button>
+                <LinkButton
+                  href="/admin/subscriptionTypes/[id]/edit"
+                  as={`/admin/subscriptionTypes/${subscriptionType.id}/edit`}
+                  variantColor="green"
+                >
+                  Edit
+                </LinkButton>
                 <Button variantColor="blue" mr={3} onClick={onClose}>
                   Close
                 </Button>
@@ -140,13 +146,13 @@ export const SubscriptionTypesPage: React.FC = () => {
                       aria-label="Delete"
                       variantColor="red"
                     /> */}
-                        {/* <LinkIconButton
-                      href="/admin/users/[id]/edit"
-                      as={`/admin/users/${st.id}/edit`}
-                      icon="edit"
-                      aria-label="Edit"
-                      variantColor="green"
-                    /> */}
+                        <LinkIconButton
+                          href="/admin/subscriptionTypes/[id]/edit"
+                          as={`/admin/subscriptionTypes/${st.id}/edit`}
+                          icon="edit"
+                          aria-label="Edit"
+                          variantColor="green"
+                        />
                       </Stack>
                     </td>
                   </tr>
