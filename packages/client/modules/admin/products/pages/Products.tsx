@@ -1,10 +1,11 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { Heading, List, ListItem, Flex, Button } from '@chakra-ui/core';
+import { Heading, Stack, IconButton, ListItem, Flex, Button } from '@chakra-ui/core';
 
-import Link from '../../../../components/Link';
+import Link, { LinkIconButton } from '../../../../components/Link';
 import { PRODUCTS_QUERY } from '../graphql/queries';
 import { ProductsQuery } from '../../../../generated';
+import Table from '../../../../components/Table';
 
 export const ProductsPage: React.FC = () => {
   const { loading, error, data } = useQuery<ProductsQuery>(PRODUCTS_QUERY);
@@ -22,15 +23,42 @@ export const ProductsPage: React.FC = () => {
       ) : error ? (
         <Heading>Error...</Heading>
       ) : (
-        <List styleType="disc">
-          {data.products.map((product) => (
-            <ListItem key={product.id}>
-              <Link href="/admin/products/[id]/edit" as={`/admin/products/${product.id}/edit`}>
-                <a>{`${product.name} -> $${product.price}`}</a>
-              </Link>
-            </ListItem>
-          ))}
-        </List>
+        <Table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th style={{ textAlign: 'right' }}>Price (USD)</th>
+              <th>Ops</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.products.map((product) => (
+              <tr key={product.id}>
+                <td>{product.id}</td>
+                <td>{product.name}</td>
+                <td style={{ textAlign: 'right' }}>${product.price}</td>
+                <td>
+                  <Stack isInline>
+                    <IconButton
+                      // onClick={remove(user.id)}
+                      icon="delete"
+                      aria-label="Delete"
+                      variantColor="red"
+                    />
+                    <LinkIconButton
+                      href="/admin/products/[id]/edit"
+                      as={`/admin/products/${product.id}/edit`}
+                      icon="edit"
+                      aria-label="Edit"
+                      variantColor="green"
+                    />
+                  </Stack>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       )}
     </>
   );
