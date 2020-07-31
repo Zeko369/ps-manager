@@ -5,8 +5,8 @@ export class CreateSubscriptionItemInput {
   @Field(() => Int, { nullable: true })
   amount: number;
 
-  @Field(() => Int)
-  productId: number;
+  @Field(() => [Int])
+  productId: number[];
 
   @Field(() => Int)
   subscriptionTypeId: number;
@@ -17,8 +17,8 @@ export class UpdateSubscriptionItemInput {
   @Field(() => Int, { nullable: true })
   amount: number;
 
-  @Field(() => Int, { nullable: true })
-  productId: number;
+  @Field(() => [Int], { nullable: true })
+  productId: number[];
 
   @Field(() => Int, { nullable: true })
   subscriptionTypeId: number;

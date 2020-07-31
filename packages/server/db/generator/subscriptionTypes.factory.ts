@@ -19,8 +19,11 @@ const createSubscriptionTypes = async (products: Product[]): Promise<Subscriptio
     const subscriptionItems: SubscriptionItem[] = [];
 
     for (let j = 0; j < Math.floor(Math.random() * 4); j++) {
+      const rand1 = Math.floor(Math.random() * products.length);
+      const rand2 = rand1 === products.length - 1 ? 0 : rand1 + 1;
+
       const subscriptionItem = new SubscriptionItem({
-        product: random(products),
+        products: [products[rand1], products[rand2]],
         subscriptionType,
         amount: Math.floor(Math.random() * 2) + 1
       });
@@ -31,7 +34,11 @@ const createSubscriptionTypes = async (products: Product[]): Promise<Subscriptio
     }
 
     // 90% of sum of all products
-    const sum = subscriptionItems.reduce((all, si) => all + si.product.price * si.amount, 0);
+    const sum = subscriptionItems.reduce(
+      (all, si) =>
+        all + si.products.reduce((priceAll, product) => priceAll + product.price, 0) * si.amount,
+      0
+    );
     subscriptionType.price = Math.floor(sum * 0.9 * 100) / 100;
 
     subscriptionType.subscriptionItems = subscriptionItems;

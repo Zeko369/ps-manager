@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, Column } from 'typeorm';
+import { Entity, ManyToOne, Column, ManyToMany, JoinTable } from 'typeorm';
 import { ObjectType, Field, Int } from 'type-graphql';
 
 import { Model } from './Model';
@@ -7,7 +7,7 @@ import { Product } from './Product';
 
 interface ISubscriptionItemProps {
   amount?: number;
-  product: Product;
+  products?: Product[];
   subscriptionType: SubscriptionType;
 }
 
@@ -19,8 +19,9 @@ export class SubscriptionItem extends Model {
   amount: number;
 
   @Field(() => Product)
-  @ManyToOne((type) => Product, (product) => product.subscriptionItems)
-  product: Product;
+  @ManyToMany((type) => Product, (product) => product.subscriptionItems)
+  @JoinTable()
+  products: Product[];
 
   @Field(() => SubscriptionType)
   @ManyToOne((type) => SubscriptionType, (subscriptionType) => subscriptionType.subscriptionItems)
@@ -31,7 +32,7 @@ export class SubscriptionItem extends Model {
 
     if (props) {
       this.amount = props.amount || 1;
-      this.product = props.product;
+      this.products = props.products || [];
       this.subscriptionType = props.subscriptionType;
     }
   }

@@ -21,7 +21,7 @@ export class Product extends Model {
   @Column({ type: 'float' })
   price: number;
 
-  @OneToMany((type) => SubscriptionItem, (subscriptionItem) => subscriptionItem.product)
+  @ManyToMany((type) => SubscriptionItem, (subscriptionItem) => subscriptionItem.products)
   subscriptionItems: SubscriptionItem[];
 
   constructor(props?: IProduct) {
