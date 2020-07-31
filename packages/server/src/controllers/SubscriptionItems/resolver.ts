@@ -17,21 +17,21 @@ export class SubscriptionItemsResolver {
     return SubscriptionItem.findOne(id);
   }
 
-  @Mutation(() => SubscriptionItem)
-  async createSubscriptionItem(@Arg('data') data: CreateSubscriptionItemInput) {
-    const products = await Product.find({ where: { id: data.productId } });
-    const subscriptionType = await SubscriptionType.findOne(data.subscriptionTypeId);
+  // @Mutation(() => SubscriptionItem)
+  // async createSubscriptionItem(@Arg('data') data: CreateSubscriptionItemInput) {
+  //   const products = await Product.find({ where: { id: data.productId } });
+  //   const subscriptionType = await SubscriptionType.findOne(data.subscriptionTypeId);
 
-    if (!products) throw new Error('Product not found!');
-    if (!subscriptionType) throw new Error('SubscriptionType not found!');
+  //   if (!products) throw new Error('Product not found!');
+  //   if (!subscriptionType) throw new Error('SubscriptionType not found!');
 
-    const subscriptionItem = new SubscriptionItem({
-      products,
-      subscriptionType
-    });
+  //   const subscriptionItem = new SubscriptionItem({
+  //     products,
+  //     subscriptionType
+  //   });
 
-    return subscriptionItem.save();
-  }
+  //   return subscriptionItem.save();
+  // }
 
   @Mutation(() => SubscriptionItem)
   async updateSubscriptionItem(
@@ -48,7 +48,7 @@ export class SubscriptionItemsResolver {
     if (!products) throw new Error('Products not found!');
     if (!subscriptionType) throw new Error('SubscriptionType not found!');
 
-    subscriptionItem.products = products ?? subscriptionItem.products;
+    // subscriptionItem.products = products ?? subscriptionItem.products;
     subscriptionItem.subscriptionType = subscriptionType ?? subscriptionItem.subscriptionType;
 
     return subscriptionItem.save();

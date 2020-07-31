@@ -2,6 +2,7 @@ import { lorem } from 'faker';
 import { Product } from '../../src/models/Product';
 import { SubscriptionType } from '../../src/models/SubscriptionType';
 import { SubscriptionItem } from '../../src/models/SubscriptionItem';
+import { SubscriptionItemProduct } from '../../src/models/relations/SubscriptionItemProduct';
 
 const createSubscriptionTypes = async (products: Product[]): Promise<SubscriptionType[]> => {
   const subscriptionTypes: SubscriptionType[] = [];
@@ -22,21 +23,39 @@ const createSubscriptionTypes = async (products: Product[]): Promise<Subscriptio
       const rand1 = Math.floor(Math.random() * products.length);
       const rand2 = rand1 === products.length - 1 ? 0 : rand1 + 1;
 
-      const subscriptionItem = new SubscriptionItem({
-        products: [products[rand1], products[rand2]],
-        subscriptionType
+      const subscriptionItem = new SubscriptionItem({ subscriptionType });
+      await subscriptionItem.save();
+
+      const sip1 = new SubscriptionItemProduct({
+        amount: Math.floor(Math.random() * 2) + 1,
+        product: products[rand1],
+        subscriptionItem
       });
 
-      await subscriptionItem.save();
+      await sip1.save();
+
+      subscriptionItem.subscriptionItemProducts = [sip1];
+
+      if (Math.random() > 0.5) {
+        const sip2 = new SubscriptionItemProduct({
+          amount: Math.floor(Math.random() * 2) + 1,
+          product: products[rand2],
+          subscriptionItem
+        });
+
+        await sip2.save();
+
+        subscriptionItem.subscriptionItemProducts = [sip1, sip2];
+      }
 
       subscriptionItems.push(subscriptionItem);
     }
 
+    const sumForSi = (si: SubscriptionItem) =>
+      si.subscriptionItemProducts.reduce((priceAll, sip) => priceAll + sip.product.price, 0);
+
     // 90% of sum of all products
-    const sum = subscriptionItems.reduce(
-      (all, si) => all + si.products.reduce((priceAll, product) => priceAll + product.price, 0),
-      0
-    );
+    const sum = subscriptionItems.reduce((all, si) => all + sumForSi(si), 0);
     subscriptionType.price = (Math.floor(sum * 0.9 * 100) / 100) * subscriptionType.amount;
 
     subscriptionType.subscriptionItems = subscriptionItems;

@@ -5,22 +5,22 @@ import { SubscriptionType } from '../../models/SubscriptionType';
 import { CreateSubscriptionTypeInput, UpdateSubscriptionTypeInput } from './inputs';
 
 // SubscriptionItem -> product - amount on relation??
+const relations = [
+  'subscriptionItems',
+  'subscriptionItems.subscriptionItemProducts',
+  'subscriptionItems.subscriptionItemProducts.product'
+];
 
 @Resolver()
 export class SubscriptionTypesResolver {
   @Query(() => [SubscriptionType])
   subscriptionTypes() {
-    return SubscriptionType.find({
-      order: { createdAt: 'DESC' },
-      relations: ['subscriptionItems', 'subscriptionItems.products']
-    });
+    return SubscriptionType.find({ order: { createdAt: 'DESC' }, relations });
   }
 
   @Query(() => SubscriptionType)
   subscriptionType(@Arg('id', () => Int) id: number) {
-    return SubscriptionType.findOne(id, {
-      relations: ['subscriptionItems', 'subscriptionItems.products']
-    });
+    return SubscriptionType.findOne(id, { relations });
   }
 
   @Mutation(() => SubscriptionType)
