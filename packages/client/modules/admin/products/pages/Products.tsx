@@ -6,6 +6,7 @@ import { LinkIconButton, LinkButton } from '../../../../components/Link';
 import { PRODUCTS_QUERY } from '../graphql/queries';
 import { ProductsQuery, useDeleteProductMutation } from '../../../../generated';
 import Table from '../../../../components/Table';
+import { formatPrice } from '../../../../helpers/formatPrice';
 
 export const ProductsPage: React.FC = () => {
   const { loading, error, data } = useQuery<ProductsQuery>(PRODUCTS_QUERY);
@@ -39,7 +40,7 @@ export const ProductsPage: React.FC = () => {
             <tr>
               <th>ID</th>
               <th>Name</th>
-              <th style={{ textAlign: 'right' }}>Price (USD)</th>
+              <th style={{ textAlign: 'right', paddingRight: 50 }}>Price (USD)</th>
               <th>Ops</th>
             </tr>
           </thead>
@@ -48,7 +49,9 @@ export const ProductsPage: React.FC = () => {
               <tr key={product.id}>
                 <td>{product.id}</td>
                 <td>{product.name}</td>
-                <td style={{ textAlign: 'right' }}>${Math.round(product.price * 100) / 100}</td>
+                <td style={{ textAlign: 'right', paddingRight: 50 }}>
+                  {formatPrice(product.price)}
+                </td>
                 <td>
                   <Stack isInline>
                     <IconButton

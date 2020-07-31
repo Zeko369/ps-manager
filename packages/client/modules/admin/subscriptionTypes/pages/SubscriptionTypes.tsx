@@ -5,6 +5,7 @@ import { LinkIconButton, LinkButton } from '../../../../components/Link';
 import { useSubscriptionTypesQuery } from '../../../../generated';
 import Table from '../../../../components/Table';
 import IndexModel from '../components/IndexModel';
+import { formatPrice } from '../../../../helpers/formatPrice';
 
 export const SubscriptionTypesPage: React.FC = () => {
   const [openId, setOpenId] = useState(-1);
@@ -32,7 +33,7 @@ export const SubscriptionTypesPage: React.FC = () => {
                 <th>ID</th>
                 <th>Slug</th>
                 <th>Name</th>
-                <th>Price</th>
+                <th style={{ textAlign: 'right', paddingRight: 50 }}>Price</th>
                 <th>Ops</th>
               </tr>
             </thead>
@@ -43,7 +44,9 @@ export const SubscriptionTypesPage: React.FC = () => {
                     <td>{st.id}</td>
                     <td>{st.slug}</td>
                     <td>{st.name}</td>
-                    <td>{st.price}</td>
+                    <td style={{ textAlign: 'right', paddingRight: 50 }}>
+                      {formatPrice(st.price)}
+                    </td>
                     <td>
                       <Stack isInline>
                         <IconButton

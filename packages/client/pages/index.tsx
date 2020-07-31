@@ -1,11 +1,11 @@
 import { NextPage } from 'next';
-import Link from '../components/Link';
 import { Box } from '@chakra-ui/core';
+import Link from '../components/Link';
 
 const Home: NextPage = () => {
   return (
     <Box>
-      <Link href="/admin">Dashboard</Link>
+      <Link href="/admin">Admin</Link>
     </Box>
   );
 };
