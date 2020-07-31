@@ -5,17 +5,24 @@ import { Model } from './Model';
 
 /**
  * ARCH of this
+ * S -> subscription (this file)
  * ST -> subscription type
  * SI -> subscription item
  * SII -> subscription item item (thingy connecting subscription items to subscriptions)
  * SU -> shipping update
-ST1
+ST1 - 3month - KS
   -> si1
+    -> p1
+    -> p2
   -> si2
+    -> p3
   -> si3
+    -> p4
 ST2
   -> si4
+    -> p1
   -> si5
+    -> p3
 
 S1 -> ST1
   -> sii1 -> si1
