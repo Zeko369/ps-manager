@@ -16,7 +16,9 @@ export class SubscriptionTypesResolver {
 
   @Query(() => SubscriptionType)
   subscriptionType(@Arg('id', () => Int) id: number) {
-    return SubscriptionType.findOne(id);
+    return SubscriptionType.findOne(id, {
+      relations: ['subscriptionItems', 'subscriptionItems.product']
+    });
   }
 
   @Mutation(() => SubscriptionType)
