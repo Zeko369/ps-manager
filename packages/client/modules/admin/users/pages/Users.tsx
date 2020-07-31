@@ -1,9 +1,11 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { USERS } from '../graphql/queries';
-import { Flex, Heading, List, ListItem } from '@chakra-ui/core';
+import { Flex, Heading, IconButton, Stack } from '@chakra-ui/core';
 
+import { LinkIconButton } from '../../../../components/Link';
+import { USERS } from '../graphql/queries';
 import { UsersQuery } from '../../../../generated';
+import Table from '../../../../components/Table';
 
 export const UsersPage: React.FC = () => {
   const { loading, error, data } = useQuery<UsersQuery>(USERS);
@@ -18,13 +20,37 @@ export const UsersPage: React.FC = () => {
       ) : error ? (
         <Heading>Error...</Heading>
       ) : (
-        <List styleType="disc">
-          {data.users.map((user) => (
-            <ListItem key={user.id}>
-              {user.name} [{user.role}]
-            </ListItem>
-          ))}
-        </List>
+        <Table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Ops</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.users.map((user) => (
+              <tr key={user.id}>
+                <td>{user.id}</td>
+                <td>{user.name}</td>
+                <td>{user.role}</td>
+                <td>
+                  <Stack isInline>
+                    <IconButton icon="delete" aria-label="Delete" variantColor="red" />
+                    <LinkIconButton
+                      href="/admin/users/[id]/edit"
+                      as={`/admin/users/${user.id}/edit`}
+                      icon="edit"
+                      aria-label="Edit"
+                      variantColor="green"
+                    />
+                  </Stack>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       )}
     </>
   );
