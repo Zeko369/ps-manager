@@ -14,7 +14,7 @@ interface IFormProps {
   initData?: IFormData;
 }
 
-const Form: React.FC<IFormProps> = ({ onSubmit, initData }) => {
+const Form: React.FC<IFormProps> = ({ onSubmit, initData, children }) => {
   const update = Boolean(initData);
   const { register, handleSubmit, formState } = useForm<IFormData>({ defaultValues: initData });
 
@@ -34,6 +34,7 @@ const Form: React.FC<IFormProps> = ({ onSubmit, initData }) => {
             <PriceField register={register} />
           </Stack>
         )}
+        {children}
         <Button variantColor="teal" isLoading={formState.isSubmitting} type="submit">
           Submit
         </Button>

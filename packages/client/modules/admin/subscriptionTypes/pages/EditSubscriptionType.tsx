@@ -1,11 +1,22 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { Heading, Stack } from '@chakra-ui/core';
+import { Heading, Stack, Box, IconButton, Icon, BoxProps } from '@chakra-ui/core';
 
 import { useSubscriptionTypeQuery, useUpdateSubscriptionTypeMutation } from '../../../../generated';
 import Form, { IFormData } from '../components/Form';
 import { getId } from '../../../../helpers/getId';
 import { SUBSCRIPTION_TYPES } from '../graphql/queries';
+
+const cardProps: BoxProps = {
+  borderWidth: '1px',
+  borderColor: 'gray.200',
+  rounded: 'lg',
+  size: '150px',
+  alignItems: 'center',
+  justifyContent: 'center',
+  display: 'flex',
+  position: 'relative'
+};
 
 export const EditSubscriptionTypePage: React.FC = () => {
   const router = useRouter();
@@ -28,7 +39,29 @@ export const EditSubscriptionTypePage: React.FC = () => {
   return (
     <Stack>
       <Heading>Update subscription type</Heading>
-      <Form onSubmit={onSubmit} initData={data.subscriptionType} />
+      <Form onSubmit={onSubmit} initData={data.subscriptionType}>
+        <Heading fontSize="1.25em">Items</Heading>
+
+        <Stack spacing={4} isInline>
+          {data.subscriptionType.subscriptionItems.map((si) => (
+            <Box {...cardProps} borderColor="gray.200">
+              <Box pos="absolute" top="10px" left="10px" cursor="pointer">
+                <Icon name="drag-handle" aria-label="Drag" />
+              </Box>
+              {si.product.name}
+            </Box>
+          ))}
+          <Box {...cardProps} borderColor="gray.100">
+            <IconButton
+              icon="add"
+              aria-label="Add new"
+              rounded="full"
+              size="lg"
+              variantColor="blue"
+            />
+          </Box>
+        </Stack>
+      </Form>
     </Stack>
   );
 };
