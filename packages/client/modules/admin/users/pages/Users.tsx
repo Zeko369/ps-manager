@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useQuery } from '@apollo/client';
 import { Flex, Heading, IconButton, Stack } from '@chakra-ui/core';
 
 import { LinkIconButton } from '../../../../components/Link';
 import { USERS } from '../graphql/queries';
-import { UsersQuery } from '../../../../generated';
+import { UsersQuery, useDeleteUserMutation } from '../../../../generated';
 import Table from '../../../../components/Table';
 
 export const UsersPage: React.FC = () => {
   const { loading, error, data } = useQuery<UsersQuery>(USERS);
+  const [deleteUser] = useDeleteUserMutation({ refetchQueries: [{ query: USERS }] });
+
+  const remove = useCallback(
+    (id: number) => async () => {
+      if (window.confirm('Are you sure?')) {
+        await deleteUser({ variables: { id } });
+      }
+    },
+    []
+  );
 
   return (
     <>
@@ -37,7 +47,12 @@ export const UsersPage: React.FC = () => {
                 <td>{user.role}</td>
                 <td>
                   <Stack isInline>
-                    <IconButton icon="delete" aria-label="Delete" variantColor="red" />
+                    <IconButton
+                      onClick={remove(user.id)}
+                      icon="delete"
+                      aria-label="Delete"
+                      variantColor="red"
+                    />
                     <LinkIconButton
                       href="/admin/users/[id]/edit"
                       as={`/admin/users/${user.id}/edit`}
