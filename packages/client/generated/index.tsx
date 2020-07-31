@@ -91,8 +91,15 @@ export type SubscriptionItem = {
   id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
-  products: Array<Product>;
+  subscriptionItemProducts: Array<SubscriptionItemProduct>;
   subscriptionType: SubscriptionType;
+};
+
+export type SubscriptionItemProduct = {
+  __typename?: 'SubscriptionItemProduct';
+  amount: Scalars['Int'];
+  subscriptionItem: SubscriptionItem;
+  product: Product;
 };
 
 export type Mutation = {
@@ -109,7 +116,6 @@ export type Mutation = {
   updateSubscriptionType: SubscriptionType;
   deleteSubscriptionItem: Scalars['Boolean'];
   createSubscriptionItem: SubscriptionItem;
-  updateSubscriptionItem: SubscriptionItem;
 };
 
 
@@ -171,12 +177,6 @@ export type MutationCreateSubscriptionItemArgs = {
   data: CreateSubscriptionItemInput;
 };
 
-
-export type MutationUpdateSubscriptionItemArgs = {
-  data: UpdateSubscriptionItemInput;
-  id: Scalars['Int'];
-};
-
 export type UpdateUserInput = {
   role?: Maybe<Role>;
 };
@@ -217,13 +217,9 @@ export type UpdateSubscriptionTypeInput = {
 };
 
 export type CreateSubscriptionItemInput = {
-  productId: Array<Scalars['Int']>;
+  productIds: Array<Scalars['Int']>;
+  amounts: Array<Scalars['Int']>;
   subscriptionTypeId: Scalars['Int'];
-};
-
-export type UpdateSubscriptionItemInput = {
-  productId?: Maybe<Array<Scalars['Int']>>;
-  subscriptionTypeId?: Maybe<Scalars['Int']>;
 };
 
 export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -299,9 +295,13 @@ export type SubscriptionTypesQuery = (
     & { subscriptionItems: Array<(
       { __typename?: 'SubscriptionItem' }
       & Pick<SubscriptionItem, 'id'>
-      & { products: Array<(
-        { __typename?: 'Product' }
-        & Pick<Product, 'id' | 'name' | 'price'>
+      & { subscriptionItemProducts: Array<(
+        { __typename?: 'SubscriptionItemProduct' }
+        & Pick<SubscriptionItemProduct, 'amount'>
+        & { product: (
+          { __typename?: 'Product' }
+          & Pick<Product, 'id' | 'name' | 'price'>
+        ) }
       )> }
     )> }
   )> }
@@ -320,9 +320,13 @@ export type SubscriptionTypeQuery = (
     & { subscriptionItems: Array<(
       { __typename?: 'SubscriptionItem' }
       & Pick<SubscriptionItem, 'id'>
-      & { products: Array<(
-        { __typename?: 'Product' }
-        & Pick<Product, 'id' | 'name' | 'price'>
+      & { subscriptionItemProducts: Array<(
+        { __typename?: 'SubscriptionItemProduct' }
+        & Pick<SubscriptionItemProduct, 'amount'>
+        & { product: (
+          { __typename?: 'Product' }
+          & Pick<Product, 'id' | 'name' | 'price'>
+        ) }
       )> }
     )> }
   ) }
@@ -628,10 +632,13 @@ export const SubscriptionTypesDocument = gql`
     price
     subscriptionItems {
       id
-      products {
-        id
-        name
-        price
+      subscriptionItemProducts {
+        amount
+        product {
+          id
+          name
+          price
+        }
       }
     }
   }
@@ -672,10 +679,13 @@ export const SubscriptionTypeDocument = gql`
     price
     subscriptionItems {
       id
-      products {
-        id
-        name
-        price
+      subscriptionItemProducts {
+        amount
+        product {
+          id
+          name
+          price
+        }
       }
     }
   }

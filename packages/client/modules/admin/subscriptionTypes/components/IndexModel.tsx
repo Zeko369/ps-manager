@@ -44,8 +44,11 @@ const IndexModel: React.FC<IModalStuff> = ({ data, onClose, id, isOpen }) => {
                     <ListItem key={si.id}>
                       Box #{index + 1}
                       <List>
-                        {si.products.map((product) => (
-                          <ListItem>{product.name}</ListItem>
+                        {si.subscriptionItemProducts.map((sip) => (
+                          <ListItem>
+                            {sip.product.name}
+                            {sip.amount !== 1 && ` x ${sip.amount}`}
+                          </ListItem>
                         ))}
                       </List>
                     </ListItem>

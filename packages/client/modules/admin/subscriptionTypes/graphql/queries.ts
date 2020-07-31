@@ -10,10 +10,13 @@ export const SUBSCRIPTION_TYPES = gql`
       price
       subscriptionItems {
         id
-        products {
-          id
-          name
-          price
+        subscriptionItemProducts {
+          amount
+          product {
+            id
+            name
+            price
+          }
         }
       }
     }
@@ -30,10 +33,13 @@ export const SUBSCRIPTION_TYPE = gql`
       price
       subscriptionItems {
         id
-        products {
-          id
-          name
-          price
+        subscriptionItemProducts {
+          amount
+          product {
+            id
+            name
+            price
+          }
         }
       }
     }
