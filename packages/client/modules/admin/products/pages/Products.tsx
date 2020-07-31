@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { useQuery } from '@apollo/client';
-import { Heading, Stack, IconButton, ListItem, Flex, Button } from '@chakra-ui/core';
+import { Heading, Stack, IconButton, Flex } from '@chakra-ui/core';
 
-import Link, { LinkIconButton } from '../../../../components/Link';
+import { LinkIconButton, LinkButton } from '../../../../components/Link';
 import { PRODUCTS_QUERY } from '../graphql/queries';
 import { ProductsQuery, useDeleteProductMutation } from '../../../../generated';
 import Table from '../../../../components/Table';
@@ -25,9 +25,9 @@ export const ProductsPage: React.FC = () => {
     <>
       <Flex justify="space-between">
         <Heading>Products:</Heading>
-        <Link href="products/new">
-          <Button variantColor="blue">New</Button>
-        </Link>
+        <LinkButton href="products/new" variantColor="blue">
+          New
+        </LinkButton>
       </Flex>
       {loading ? (
         <Heading>Loading...</Heading>

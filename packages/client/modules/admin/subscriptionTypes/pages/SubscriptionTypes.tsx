@@ -21,7 +21,7 @@ import {
   ModalCloseButton
 } from '@chakra-ui/core';
 
-import { LinkIconButton } from '../../../../components/Link';
+import { LinkIconButton, LinkButton } from '../../../../components/Link';
 import { useSubscriptionTypesQuery, SubscriptionTypesQuery } from '../../../../generated';
 import Table from '../../../../components/Table';
 
@@ -92,12 +92,13 @@ export const SubscriptionTypesPage: React.FC = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  console.log(open);
-
   return (
     <>
       <Flex justify="space-between">
-        <Heading>Subscription types:</Heading>
+        <Heading>Subscription Types:</Heading>
+        <LinkButton href="subscriptionTypes/new" variantColor="blue">
+          New
+        </LinkButton>
       </Flex>
       {loading ? (
         <Heading>Loading...</Heading>
