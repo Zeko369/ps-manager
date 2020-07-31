@@ -23,6 +23,8 @@ export type Query = {
   me?: Maybe<User>;
   subscriptionTypes: Array<SubscriptionType>;
   subscriptionType: SubscriptionType;
+  subscriptionItems: Array<SubscriptionItem>;
+  subscriptionItem: SubscriptionItem;
 };
 
 
@@ -37,6 +39,11 @@ export type QueryProductArgs = {
 
 
 export type QuerySubscriptionTypeArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QuerySubscriptionItemArgs = {
   id: Scalars['Int'];
 };
 
@@ -72,6 +79,20 @@ export type SubscriptionType = {
   id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  slug: Scalars['String'];
+  name: Scalars['String'];
+  price?: Maybe<Scalars['Float']>;
+  subscriptionItems: Array<SubscriptionItem>;
+};
+
+export type SubscriptionItem = {
+  __typename?: 'SubscriptionItem';
+  id: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  amount: Scalars['Int'];
+  product: Product;
+  subscriptionType: SubscriptionType;
 };
 
 export type Mutation = {
@@ -87,6 +108,8 @@ export type Mutation = {
   createSubscriptionType: SubscriptionType;
   updateSubscriptionType: SubscriptionType;
   deleteSubscriptionItem: Scalars['Boolean'];
+  createSubscriptionItem: SubscriptionItem;
+  updateSubscriptionItem: SubscriptionItem;
 };
 
 
@@ -143,6 +166,17 @@ export type MutationDeleteSubscriptionItemArgs = {
   id: Scalars['Int'];
 };
 
+
+export type MutationCreateSubscriptionItemArgs = {
+  data: CreateSubscriptionItemInput;
+};
+
+
+export type MutationUpdateSubscriptionItemArgs = {
+  data: UpdateSubscriptionItemInput;
+  id: Scalars['Int'];
+};
+
 export type UpdateUserInput = {
   role?: Maybe<Role>;
 };
@@ -178,6 +212,18 @@ export type UpdateSubscriptionTypeInput = {
   price?: Maybe<Scalars['Int']>;
   subscriptionItems?: Maybe<Array<Scalars['Int']>>;
   subscriptionItemsOrder?: Maybe<Array<Scalars['Int']>>;
+};
+
+export type CreateSubscriptionItemInput = {
+  amount?: Maybe<Scalars['Int']>;
+  productId: Scalars['Int'];
+  subscriptionTypeId: Scalars['Int'];
+};
+
+export type UpdateSubscriptionItemInput = {
+  amount?: Maybe<Scalars['Int']>;
+  productId?: Maybe<Scalars['Int']>;
+  subscriptionTypeId?: Maybe<Scalars['Int']>;
 };
 
 export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -240,6 +286,25 @@ export type DeleteProductMutationVariables = Exact<{
 export type DeleteProductMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'deleteProduct'>
+);
+
+export type SubscriptionTypesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SubscriptionTypesQuery = (
+  { __typename?: 'Query' }
+  & { subscriptionTypes: Array<(
+    { __typename?: 'SubscriptionType' }
+    & Pick<SubscriptionType, 'id' | 'slug' | 'name' | 'price'>
+    & { subscriptionItems: Array<(
+      { __typename?: 'SubscriptionItem' }
+      & Pick<SubscriptionItem, 'id' | 'amount'>
+      & { product: (
+        { __typename?: 'Product' }
+        & Pick<Product, 'id' | 'name' | 'price'>
+      ) }
+    )> }
+  )> }
 );
 
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
@@ -504,6 +569,50 @@ export function useDeleteProductMutation(baseOptions?: ApolloReactHooks.Mutation
 export type DeleteProductMutationHookResult = ReturnType<typeof useDeleteProductMutation>;
 export type DeleteProductMutationResult = ApolloReactCommon.MutationResult<DeleteProductMutation>;
 export type DeleteProductMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteProductMutation, DeleteProductMutationVariables>;
+export const SubscriptionTypesDocument = gql`
+    query subscriptionTypes {
+  subscriptionTypes {
+    id
+    slug
+    name
+    price
+    subscriptionItems {
+      id
+      amount
+      product {
+        id
+        name
+        price
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useSubscriptionTypesQuery__
+ *
+ * To run a query within a React component, call `useSubscriptionTypesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSubscriptionTypesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSubscriptionTypesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSubscriptionTypesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<SubscriptionTypesQuery, SubscriptionTypesQueryVariables>) {
+        return ApolloReactHooks.useQuery<SubscriptionTypesQuery, SubscriptionTypesQueryVariables>(SubscriptionTypesDocument, baseOptions);
+      }
+export function useSubscriptionTypesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SubscriptionTypesQuery, SubscriptionTypesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<SubscriptionTypesQuery, SubscriptionTypesQueryVariables>(SubscriptionTypesDocument, baseOptions);
+        }
+export type SubscriptionTypesQueryHookResult = ReturnType<typeof useSubscriptionTypesQuery>;
+export type SubscriptionTypesLazyQueryHookResult = ReturnType<typeof useSubscriptionTypesLazyQuery>;
+export type SubscriptionTypesQueryResult = ApolloReactCommon.QueryResult<SubscriptionTypesQuery, SubscriptionTypesQueryVariables>;
 export const UsersDocument = gql`
     query USERS {
   users {
