@@ -7,7 +7,8 @@ import { ME } from '../../modules/auth/graphql/queries';
 
 const links: ILink[] = [
   { text: 'Products', href: '/admin/products' },
-  { text: 'Users', href: '/admin/users' }
+  { text: 'Users', href: '/admin/users' },
+  { text: 'SubscriptionTypes', href: '/admin/subscriptionTypes' }
 ];
 
 export const AdminNavbar: React.FC = () => {
