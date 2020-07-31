@@ -1,96 +1,10 @@
 import React, { useState } from 'react';
-import {
-  Flex,
-  Heading,
-  IconButton,
-  Stack,
-  Collapse,
-  useDisclosure,
-  Button,
-  List,
-  ListItem,
-  Text
-} from '@chakra-ui/core';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton
-} from '@chakra-ui/core';
+import { Flex, Heading, IconButton, Stack, useDisclosure } from '@chakra-ui/core';
 
 import { LinkIconButton, LinkButton } from '../../../../components/Link';
-import { useSubscriptionTypesQuery, SubscriptionTypesQuery } from '../../../../generated';
+import { useSubscriptionTypesQuery } from '../../../../generated';
 import Table from '../../../../components/Table';
-
-interface IModalStuff {
-  data: SubscriptionTypesQuery;
-  onClose: () => void;
-  id: number;
-}
-
-const ModalStuff: React.FC<IModalStuff> = ({ data, onClose, id }) => {
-  const subscriptionType = data.subscriptionTypes.find((st) => st.id === id);
-
-  return (
-    <>
-      <ModalOverlay />
-      <ModalContent>
-        {subscriptionType ? (
-          <>
-            <ModalHeader>{subscriptionType.name}</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <b>Slug:</b> {subscriptionType.slug}
-              <br />
-              <b>Items: </b>
-              {subscriptionType.subscriptionItems.length ? (
-                <List styleType="disc">
-                  {subscriptionType.subscriptionItems.map((si) => (
-                    <ListItem key={si.id}>
-                      {si.product.name} x {si.amount}
-                    </ListItem>
-                  ))}
-                </List>
-              ) : (
-                <Text>No items</Text>
-              )}
-            </ModalBody>
-
-            <ModalFooter>
-              <Stack isInline>
-                <LinkButton
-                  href="/admin/subscriptionTypes/[id]/edit"
-                  as={`/admin/subscriptionTypes/${subscriptionType.id}/edit`}
-                  variantColor="green"
-                >
-                  Edit
-                </LinkButton>
-                <Button variantColor="blue" mr={3} onClick={onClose}>
-                  Close
-                </Button>
-              </Stack>
-            </ModalFooter>
-          </>
-        ) : (
-          <>
-            <ModalHeader>Can'f find subscription type</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>Missing :(</ModalBody>
-
-            <ModalFooter>
-              <Button variantColor="blue" mr={3} onClick={onClose}>
-                Close
-              </Button>
-            </ModalFooter>
-          </>
-        )}
-      </ModalContent>
-    </>
-  );
-};
+import IndexModel from '../components/IndexModel';
 
 export const SubscriptionTypesPage: React.FC = () => {
   const [openId, setOpenId] = useState(-1);
@@ -161,9 +75,7 @@ export const SubscriptionTypesPage: React.FC = () => {
             </tbody>
           </Table>
 
-          <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalStuff data={data} onClose={onClose} id={openId} />
-          </Modal>
+          <IndexModel onClose={onClose} isOpen={isOpen} data={data} id={openId} />
         </>
       )}
     </>
