@@ -7,6 +7,7 @@ export interface IFormData {
   name: string;
   slug: string;
   price?: number;
+  sum?: number;
 }
 
 interface IFormProps {
@@ -31,7 +32,10 @@ const Form: React.FC<IFormProps> = ({ onSubmit, initData, children }) => {
         </FormControl>
         {update && (
           <Stack spacing={3}>
-            <PriceField register={register} />
+            <PriceField
+              register={register}
+              label={initData.sum && `Price: (Combined: ${initData.sum})`}
+            />
           </Stack>
         )}
         {children}

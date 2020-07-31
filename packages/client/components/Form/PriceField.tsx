@@ -4,10 +4,11 @@ import { FormControl, FormLabel, Input } from '@chakra-ui/core';
 const PriceField: React.ForwardRefExoticComponent<{
   register: any;
   isRequired?: boolean;
-}> = forwardRef(({ isRequired, register }, ref) => {
+  label?: string;
+}> = forwardRef(({ isRequired, register, label = 'Price' }, ref) => {
   return (
     <FormControl ref={ref} isRequired={isRequired}>
-      <FormLabel htmlFor="price">Price</FormLabel>
+      <FormLabel htmlFor="price">{label}</FormLabel>
       <Input
         name="price"
         placeholder="price"

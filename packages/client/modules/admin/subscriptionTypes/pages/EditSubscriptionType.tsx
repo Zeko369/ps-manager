@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import {
   Heading,
@@ -48,15 +48,26 @@ export const EditSubscriptionTypePage: React.FC = () => {
     router.push('/admin/subscriptionTypes');
   };
 
+  const sum = useMemo(
+    () =>
+      loading || !data
+        ? 0
+        : data.subscriptionType.subscriptionItems.reduce(
+            (all, si) =>
+              all + si.subscriptionItemProducts.reduce((a, sip) => a + sip.product.price, 0),
+            0
+          ),
+    [loading, data]
+  );
+
   if (loading) return <Heading>Loading...</Heading>;
   if (error) return <Heading>Error...</Heading>;
 
   return (
     <Stack>
       <Heading>Update subscription type</Heading>
-      <Form onSubmit={onSubmit} initData={data.subscriptionType}>
+      <Form onSubmit={onSubmit} initData={{ ...data.subscriptionType, sum }}>
         <Heading fontSize="1.25em">Items</Heading>
-
         <Stack spacing={4} isInline>
           {data.subscriptionType.subscriptionItems.map((si, index) => (
             <Box {...cardProps} borderColor="gray.200">
