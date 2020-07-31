@@ -16,7 +16,7 @@ const Table = styled.table`
     border-bottom: 1px solid #ddd;
   }
 
-  tr:hover {
+  tbody > tr:hover {
     background-color: #f5f5f5;
   }
 `;
