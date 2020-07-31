@@ -2891,6 +2891,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-table@^7.0.19":
+  version "7.0.19"
+  resolved "https://registry.yarnpkg.com/@types/react-table/-/react-table-7.0.19.tgz#a70603ac0ffdeaf399fc6919aacb32fc42e9dd40"
+  integrity sha512-RYyEY7Yry6F2JsKhHeFsGdzuFF1hMqBStQrrazDzpBl4m/ECGHJxFVQjLBRzRwK+47ZKNPm79f7qEpHirbiCLA==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@^16.8.10", "@types/react@^16.9.43":
   version "16.9.43"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.43.tgz#c287f23f6189666ee3bebc2eb8d0f84bcb6cdb6b"
@@ -10156,6 +10163,11 @@ react-spring@^8.0.27:
   dependencies:
     "@babel/runtime" "^7.3.1"
     prop-types "^15.5.8"
+
+react-table@^7.3.3:
+  version "7.3.3"
+  resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.3.3.tgz#34bdde5f0f2363b923d1fd93c321a3f2c0aa20c3"
+  integrity sha512-FG28N93kZ3DtMzeKtyFxKAebQ+WPF9ayGAGEaoaE9hA7F9vrhsTeU1ReKe/nBEs9uc3zm1n/fwDeBUBkZyAK9g==
 
 react@16.13.1:
   version "16.13.1"

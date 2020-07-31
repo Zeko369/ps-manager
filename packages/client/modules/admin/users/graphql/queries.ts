@@ -10,3 +10,23 @@ export const USERS = gql`
     }
   }
 `;
+
+export const USER = gql`
+  query USER($id: Int!) {
+    user(id: $id) {
+      id
+      name
+      email
+      role
+    }
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation updateUser($id: Int!, $data: UpdateUserInput!) {
+    updateUser(id: $id, data: $data) {
+      id
+      role
+    }
+  }
+`;
