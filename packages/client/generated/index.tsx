@@ -79,6 +79,7 @@ export type SubscriptionType = {
   id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  amount: Scalars['Int'];
   slug: Scalars['String'];
   name: Scalars['String'];
   price?: Maybe<Scalars['Float']>;
@@ -90,8 +91,7 @@ export type SubscriptionItem = {
   id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
-  amount: Scalars['Int'];
-  product: Product;
+  products: Array<Product>;
   subscriptionType: SubscriptionType;
 };
 
@@ -199,6 +199,7 @@ export type SignUpInput = {
 };
 
 export type CreateSubscriptionTypeInput = {
+  amount?: Maybe<Scalars['Int']>;
   slug: Scalars['String'];
   name?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Int']>;
@@ -207,6 +208,7 @@ export type CreateSubscriptionTypeInput = {
 };
 
 export type UpdateSubscriptionTypeInput = {
+  amount?: Maybe<Scalars['Int']>;
   slug?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Int']>;
@@ -215,14 +217,12 @@ export type UpdateSubscriptionTypeInput = {
 };
 
 export type CreateSubscriptionItemInput = {
-  amount?: Maybe<Scalars['Int']>;
-  productId: Scalars['Int'];
+  productId: Array<Scalars['Int']>;
   subscriptionTypeId: Scalars['Int'];
 };
 
 export type UpdateSubscriptionItemInput = {
-  amount?: Maybe<Scalars['Int']>;
-  productId?: Maybe<Scalars['Int']>;
+  productId?: Maybe<Array<Scalars['Int']>>;
   subscriptionTypeId?: Maybe<Scalars['Int']>;
 };
 
@@ -295,14 +295,14 @@ export type SubscriptionTypesQuery = (
   { __typename?: 'Query' }
   & { subscriptionTypes: Array<(
     { __typename?: 'SubscriptionType' }
-    & Pick<SubscriptionType, 'id' | 'slug' | 'name' | 'price'>
+    & Pick<SubscriptionType, 'id' | 'amount' | 'slug' | 'name' | 'price'>
     & { subscriptionItems: Array<(
       { __typename?: 'SubscriptionItem' }
-      & Pick<SubscriptionItem, 'id' | 'amount'>
-      & { product: (
+      & Pick<SubscriptionItem, 'id'>
+      & { products: Array<(
         { __typename?: 'Product' }
         & Pick<Product, 'id' | 'name' | 'price'>
-      ) }
+      )> }
     )> }
   )> }
 );
@@ -316,14 +316,14 @@ export type SubscriptionTypeQuery = (
   { __typename?: 'Query' }
   & { subscriptionType: (
     { __typename?: 'SubscriptionType' }
-    & Pick<SubscriptionType, 'id' | 'slug' | 'name' | 'price'>
+    & Pick<SubscriptionType, 'id' | 'amount' | 'slug' | 'name' | 'price'>
     & { subscriptionItems: Array<(
       { __typename?: 'SubscriptionItem' }
-      & Pick<SubscriptionItem, 'id' | 'amount'>
-      & { product: (
+      & Pick<SubscriptionItem, 'id'>
+      & { products: Array<(
         { __typename?: 'Product' }
         & Pick<Product, 'id' | 'name' | 'price'>
-      ) }
+      )> }
     )> }
   ) }
 );
@@ -622,13 +622,13 @@ export const SubscriptionTypesDocument = gql`
     query subscriptionTypes {
   subscriptionTypes {
     id
+    amount
     slug
     name
     price
     subscriptionItems {
       id
-      amount
-      product {
+      products {
         id
         name
         price
@@ -666,13 +666,13 @@ export const SubscriptionTypeDocument = gql`
     query subscriptionType($id: Int!) {
   subscriptionType(id: $id) {
     id
+    amount
     slug
     name
     price
     subscriptionItems {
       id
-      amount
-      product {
+      products {
         id
         name
         price

@@ -2,6 +2,9 @@ import { InputType, Field, Int } from 'type-graphql';
 
 @InputType()
 export class CreateSubscriptionTypeInput {
+  @Field(() => Int, { nullable: true })
+  amount?: number;
+
   @Field(() => String)
   slug: string;
 
@@ -20,6 +23,9 @@ export class CreateSubscriptionTypeInput {
 
 @InputType()
 export class UpdateSubscriptionTypeInput {
+  @Field(() => Int, { nullable: true })
+  amount?: number;
+
   @Field(() => String, { nullable: true })
   slug: string;
 

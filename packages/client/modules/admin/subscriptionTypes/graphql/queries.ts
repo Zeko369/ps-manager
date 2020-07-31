@@ -4,13 +4,13 @@ export const SUBSCRIPTION_TYPES = gql`
   query subscriptionTypes {
     subscriptionTypes {
       id
+      amount
       slug
       name
       price
       subscriptionItems {
         id
-        amount
-        product {
+        products {
           id
           name
           price
@@ -24,13 +24,13 @@ export const SUBSCRIPTION_TYPE = gql`
   query subscriptionType($id: Int!) {
     subscriptionType(id: $id) {
       id
+      amount
       slug
       name
       price
       subscriptionItems {
         id
-        amount
-        product {
+        products {
           id
           name
           price

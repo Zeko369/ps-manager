@@ -57,12 +57,6 @@ export const SubscriptionTypesPage: React.FC = () => {
                             onOpen();
                           }}
                         />
-                        {/* <IconButton
-                      onClick={remove(st.id)}
-                      icon="delete"
-                      aria-label="Delete"
-                      variantColor="red"
-                    /> */}
                         <LinkIconButton
                           href="/admin/subscriptionTypes/[id]/edit"
                           as={`/admin/subscriptionTypes/${st.id}/edit`}

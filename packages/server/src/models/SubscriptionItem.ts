@@ -6,7 +6,6 @@ import { SubscriptionType } from './SubscriptionType';
 import { Product } from './Product';
 
 interface ISubscriptionItemProps {
-  amount?: number;
   products?: Product[];
   subscriptionType: SubscriptionType;
 }
@@ -14,11 +13,7 @@ interface ISubscriptionItemProps {
 @Entity()
 @ObjectType()
 export class SubscriptionItem extends Model {
-  @Field(() => Int)
-  @Column({ default: 1 })
-  amount: number;
-
-  @Field(() => Product)
+  @Field(() => [Product])
   @ManyToMany((type) => Product, (product) => product.subscriptionItems)
   @JoinTable()
   products: Product[];
@@ -31,7 +26,6 @@ export class SubscriptionItem extends Model {
     super();
 
     if (props) {
-      this.amount = props.amount || 1;
       this.products = props.products || [];
       this.subscriptionType = props.subscriptionType;
     }

@@ -1,10 +1,11 @@
 import { Entity, Column, OneToMany } from 'typeorm';
-import { ObjectType, Field, Float } from 'type-graphql';
+import { ObjectType, Field, Float, Int } from 'type-graphql';
 
 import { Model } from './Model';
 import { SubscriptionItem } from './SubscriptionItem';
 
 interface ISubscriptionTypeProps {
+  amount?: number;
   slug: string;
   name?: string;
   price?: number;
@@ -15,6 +16,10 @@ interface ISubscriptionTypeProps {
 @Entity()
 @ObjectType()
 export class SubscriptionType extends Model {
+  @Field(() => Int)
+  @Column({ default: 1 })
+  amount: number;
+
   @Field(() => String)
   @Column({ unique: true })
   slug: string;
@@ -37,8 +42,9 @@ export class SubscriptionType extends Model {
   constructor(props?: ISubscriptionTypeProps) {
     super();
     if (props) {
-      const { slug, name, price, subscriptionItems = [], subscriptionItemsOrder } = props;
+      const { amount, slug, name, price, subscriptionItems = [], subscriptionItemsOrder } = props;
 
+      this.amount = amount || 1;
       this.slug = slug;
       this.name = name || slug;
       this.price = price || undefined;

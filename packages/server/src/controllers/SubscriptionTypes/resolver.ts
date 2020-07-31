@@ -4,20 +4,22 @@ import { SubscriptionItem } from '../../models/SubscriptionItem';
 import { SubscriptionType } from '../../models/SubscriptionType';
 import { CreateSubscriptionTypeInput, UpdateSubscriptionTypeInput } from './inputs';
 
+// SubscriptionItem -> product - amount on relation??
+
 @Resolver()
 export class SubscriptionTypesResolver {
   @Query(() => [SubscriptionType])
   subscriptionTypes() {
     return SubscriptionType.find({
       order: { createdAt: 'DESC' },
-      relations: ['subscriptionItems', 'subscriptionItems.product']
+      relations: ['subscriptionItems', 'subscriptionItems.products']
     });
   }
 
   @Query(() => SubscriptionType)
   subscriptionType(@Arg('id', () => Int) id: number) {
     return SubscriptionType.findOne(id, {
-      relations: ['subscriptionItems', 'subscriptionItems.product']
+      relations: ['subscriptionItems', 'subscriptionItems.products']
     });
   }
 
@@ -45,6 +47,7 @@ export class SubscriptionTypesResolver {
 
     if (!subscriptionType) throw new Error('SubscriptionType not found!');
 
+    subscriptionType.amount = data.amount ?? subscriptionType.amount;
     subscriptionType.slug = data.slug ?? subscriptionType.slug;
     subscriptionType.name = data.name ?? subscriptionType.name;
     subscriptionType.price = data.price ?? subscriptionType.price;

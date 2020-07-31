@@ -26,7 +26,6 @@ export class SubscriptionItemsResolver {
     if (!subscriptionType) throw new Error('SubscriptionType not found!');
 
     const subscriptionItem = new SubscriptionItem({
-      amount: data.amount,
       products,
       subscriptionType
     });
@@ -49,7 +48,6 @@ export class SubscriptionItemsResolver {
     if (!products) throw new Error('Products not found!');
     if (!subscriptionType) throw new Error('SubscriptionType not found!');
 
-    subscriptionItem.amount = data.amount ?? subscriptionItem.amount;
     subscriptionItem.products = products ?? subscriptionItem.products;
     subscriptionItem.subscriptionType = subscriptionType ?? subscriptionItem.subscriptionType;
 

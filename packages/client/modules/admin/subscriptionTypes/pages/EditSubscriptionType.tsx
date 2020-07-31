@@ -51,7 +51,7 @@ export const EditSubscriptionTypePage: React.FC = () => {
               <Box pos="absolute" top="10px" left="10px" cursor="pointer">
                 <Icon name="drag-handle" aria-label="Drag" />
               </Box>
-              {si.product.name}
+              {si.products.map((p) => p.name).join(', ')}
             </Box>
           ))}
           <Box {...cardProps} borderColor="gray.100">

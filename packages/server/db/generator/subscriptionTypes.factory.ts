@@ -1,18 +1,18 @@
+import { lorem } from 'faker';
 import { Product } from '../../src/models/Product';
 import { SubscriptionType } from '../../src/models/SubscriptionType';
 import { SubscriptionItem } from '../../src/models/SubscriptionItem';
-import { lorem } from 'faker';
-
-const random = <T>(arr: T[]): T => {
-  return arr[Math.floor(Math.random() * arr.length)];
-};
 
 const createSubscriptionTypes = async (products: Product[]): Promise<SubscriptionType[]> => {
   const subscriptionTypes: SubscriptionType[] = [];
 
   for (let i = 0; i < 4; i++) {
     const name = lorem.words(Math.floor(Math.random() * 3) + 1);
-    const subscriptionType = new SubscriptionType({ slug: name.replace(/\ /g, '-'), name });
+    const subscriptionType = new SubscriptionType({
+      slug: name.replace(/\ /g, '-'),
+      name,
+      amount: Math.floor(Math.random() * 2) + 1
+    });
 
     await subscriptionType.save();
 
@@ -24,8 +24,7 @@ const createSubscriptionTypes = async (products: Product[]): Promise<Subscriptio
 
       const subscriptionItem = new SubscriptionItem({
         products: [products[rand1], products[rand2]],
-        subscriptionType,
-        amount: Math.floor(Math.random() * 2) + 1
+        subscriptionType
       });
 
       await subscriptionItem.save();
@@ -35,11 +34,10 @@ const createSubscriptionTypes = async (products: Product[]): Promise<Subscriptio
 
     // 90% of sum of all products
     const sum = subscriptionItems.reduce(
-      (all, si) =>
-        all + si.products.reduce((priceAll, product) => priceAll + product.price, 0) * si.amount,
+      (all, si) => all + si.products.reduce((priceAll, product) => priceAll + product.price, 0),
       0
     );
-    subscriptionType.price = Math.floor(sum * 0.9 * 100) / 100;
+    subscriptionType.price = (Math.floor(sum * 0.9 * 100) / 100) * subscriptionType.amount;
 
     subscriptionType.subscriptionItems = subscriptionItems;
     subscriptionType.subscriptionItemsOrder = subscriptionItems.map((si) => si.id);
