@@ -11,7 +11,8 @@ import {
   ListItem,
   Stack,
   Button,
-  Text
+  Text,
+  ListIcon
 } from '@chakra-ui/core';
 import { SubscriptionTypesQuery } from '../../../../generated';
 import { LinkButton } from '../../../../components/Link';
@@ -39,13 +40,15 @@ const IndexModel: React.FC<IModalStuff> = ({ data, onClose, id, isOpen }) => {
               <br />
               <b>Items: </b>
               {subscriptionType.subscriptionItems.length ? (
-                <List styleType="disc">
+                <List>
                   {subscriptionType.subscriptionItems.map((si, index) => (
                     <ListItem key={si.id}>
+                      <ListIcon icon="arrow-right" color="black" />
                       Box #{index + 1}
                       <List>
                         {si.subscriptionItemProducts.map((sip) => (
                           <ListItem>
+                            <ListIcon icon="chevron-right" color="black" />
                             {sip.product.name}
                             {sip.amount !== 1 && ` x ${sip.amount}`}
                           </ListItem>

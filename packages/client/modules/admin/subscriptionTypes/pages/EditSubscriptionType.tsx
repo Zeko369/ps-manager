@@ -1,6 +1,16 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { Heading, Stack, Box, IconButton, Icon, BoxProps, useDisclosure } from '@chakra-ui/core';
+import {
+  Heading,
+  Stack,
+  Box,
+  IconButton,
+  Icon,
+  BoxProps,
+  useDisclosure,
+  ListItem,
+  List
+} from '@chakra-ui/core';
 
 import { useSubscriptionTypeQuery, useUpdateSubscriptionTypeMutation } from '../../../../generated';
 import Form, { IFormData } from '../components/Form';
@@ -12,10 +22,12 @@ const cardProps: BoxProps = {
   borderWidth: '1px',
   borderColor: 'gray.200',
   rounded: 'lg',
-  size: '150px',
+  height: '150px',
+  width: '250px',
   alignItems: 'center',
   justifyContent: 'center',
   display: 'flex',
+  flexDir: 'column',
   position: 'relative'
 };
 
@@ -46,14 +58,22 @@ export const EditSubscriptionTypePage: React.FC = () => {
         <Heading fontSize="1.25em">Items</Heading>
 
         <Stack spacing={4} isInline>
-          {data.subscriptionType.subscriptionItems.map((si) => (
+          {data.subscriptionType.subscriptionItems.map((si, index) => (
             <Box {...cardProps} borderColor="gray.200">
               <Box pos="absolute" top="10px" left="10px" cursor="pointer">
                 <Icon name="drag-handle" aria-label="Drag" />
               </Box>
-              {si.subscriptionItemProducts
-                .map((p) => `${p.product.name}${p.amount !== 1 ? ` x ${p.amount}` : ''}`)
-                .join(', ')}
+              <Heading fontSize="1.25em" mb={3}>
+                Box #{index}
+              </Heading>
+              <List styleType="disc">
+                {si.subscriptionItemProducts.map((p) => (
+                  <ListItem>
+                    {p.product.name}
+                    {p.amount !== 1 ? ` x ${p.amount}` : ''}
+                  </ListItem>
+                ))}
+              </List>
             </Box>
           ))}
           <Box {...cardProps} borderColor="gray.100">
