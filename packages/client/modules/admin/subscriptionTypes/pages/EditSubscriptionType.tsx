@@ -1,11 +1,12 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { Heading, Stack, Box, IconButton, Icon, BoxProps } from '@chakra-ui/core';
+import { Heading, Stack, Box, IconButton, Icon, BoxProps, useDisclosure } from '@chakra-ui/core';
 
 import { useSubscriptionTypeQuery, useUpdateSubscriptionTypeMutation } from '../../../../generated';
 import Form, { IFormData } from '../components/Form';
 import { getId } from '../../../../helpers/getId';
 import { SUBSCRIPTION_TYPES } from '../graphql/queries';
+import AddSubscriptionItem from '../components/AddSubscriptionItem';
 
 const cardProps: BoxProps = {
   borderWidth: '1px',
@@ -19,6 +20,8 @@ const cardProps: BoxProps = {
 };
 
 export const EditSubscriptionTypePage: React.FC = () => {
+  const disclosure = useDisclosure();
+
   const router = useRouter();
   const id = getId(router.query);
 
@@ -58,10 +61,12 @@ export const EditSubscriptionTypePage: React.FC = () => {
               rounded="full"
               size="lg"
               variantColor="blue"
+              onClick={disclosure.onOpen}
             />
           </Box>
         </Stack>
       </Form>
+      <AddSubscriptionItem {...disclosure} />
     </Stack>
   );
 };
