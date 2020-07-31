@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useQuery } from '@apollo/client';
 import { Heading, Stack, IconButton, ListItem, Flex, Button } from '@chakra-ui/core';
 
 import Link, { LinkIconButton } from '../../../../components/Link';
 import { PRODUCTS_QUERY } from '../graphql/queries';
-import { ProductsQuery } from '../../../../generated';
+import { ProductsQuery, useDeleteProductMutation } from '../../../../generated';
 import Table from '../../../../components/Table';
 
 export const ProductsPage: React.FC = () => {
   const { loading, error, data } = useQuery<ProductsQuery>(PRODUCTS_QUERY);
+
+  const [deleteProduct] = useDeleteProductMutation({ refetchQueries: [{ query: PRODUCTS_QUERY }] });
+
+  const remove = useCallback(
+    (id: number) => async () => {
+      if (window.confirm('Are you sure?')) {
+        await deleteProduct({ variables: { id } });
+      }
+    },
+    []
+  );
 
   return (
     <>
@@ -37,11 +48,11 @@ export const ProductsPage: React.FC = () => {
               <tr key={product.id}>
                 <td>{product.id}</td>
                 <td>{product.name}</td>
-                <td style={{ textAlign: 'right' }}>${product.price}</td>
+                <td style={{ textAlign: 'right' }}>${Math.round(product.price * 100) / 100}</td>
                 <td>
                   <Stack isInline>
                     <IconButton
-                      // onClick={remove(user.id)}
+                      onClick={remove(product.id)}
                       icon="delete"
                       aria-label="Delete"
                       variantColor="red"

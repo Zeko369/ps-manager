@@ -21,6 +21,8 @@ export type Query = {
   products: Array<Product>;
   product: Product;
   me?: Maybe<User>;
+  subscriptionTypes: Array<SubscriptionType>;
+  subscriptionType: SubscriptionType;
 };
 
 
@@ -30,6 +32,11 @@ export type QueryUserArgs = {
 
 
 export type QueryProductArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QuerySubscriptionTypeArgs = {
   id: Scalars['Int'];
 };
 
@@ -57,7 +64,14 @@ export type Product = {
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   name: Scalars['String'];
-  price: Scalars['String'];
+  price: Scalars['Float'];
+};
+
+export type SubscriptionType = {
+  __typename?: 'SubscriptionType';
+  id: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
 };
 
 export type Mutation = {
@@ -70,6 +84,9 @@ export type Mutation = {
   signUp: User;
   signIn: User;
   signOut: Scalars['Boolean'];
+  createSubscriptionType: SubscriptionType;
+  updateSubscriptionType: SubscriptionType;
+  deleteSubscriptionItem: Scalars['Boolean'];
 };
 
 
@@ -110,6 +127,22 @@ export type MutationSignInArgs = {
   email: Scalars['String'];
 };
 
+
+export type MutationCreateSubscriptionTypeArgs = {
+  data: CreateSubscriptionTypeInput;
+};
+
+
+export type MutationUpdateSubscriptionTypeArgs = {
+  data: UpdateSubscriptionTypeInput;
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteSubscriptionItemArgs = {
+  id: Scalars['Int'];
+};
+
 export type UpdateUserInput = {
   role?: Maybe<Role>;
 };
@@ -129,6 +162,22 @@ export type SignUpInput = {
   lastName: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
+};
+
+export type CreateSubscriptionTypeInput = {
+  slug: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['Int']>;
+  subscriptionItems?: Maybe<Array<Scalars['Int']>>;
+  subscriptionItemsOrder?: Maybe<Array<Scalars['Int']>>;
+};
+
+export type UpdateSubscriptionTypeInput = {
+  slug?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['Int']>;
+  subscriptionItems?: Maybe<Array<Scalars['Int']>>;
+  subscriptionItemsOrder?: Maybe<Array<Scalars['Int']>>;
 };
 
 export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -181,6 +230,16 @@ export type UpdateProductMutation = (
     { __typename?: 'Product' }
     & Pick<Product, 'id' | 'name' | 'price'>
   ) }
+);
+
+export type DeleteProductMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteProductMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteProduct'>
 );
 
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
@@ -415,6 +474,36 @@ export function useUpdateProductMutation(baseOptions?: ApolloReactHooks.Mutation
 export type UpdateProductMutationHookResult = ReturnType<typeof useUpdateProductMutation>;
 export type UpdateProductMutationResult = ApolloReactCommon.MutationResult<UpdateProductMutation>;
 export type UpdateProductMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateProductMutation, UpdateProductMutationVariables>;
+export const DeleteProductDocument = gql`
+    mutation deleteProduct($id: Int!) {
+  deleteProduct(id: $id)
+}
+    `;
+export type DeleteProductMutationFn = ApolloReactCommon.MutationFunction<DeleteProductMutation, DeleteProductMutationVariables>;
+
+/**
+ * __useDeleteProductMutation__
+ *
+ * To run a mutation, you first call `useDeleteProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteProductMutation, { data, loading, error }] = useDeleteProductMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteProductMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteProductMutation, DeleteProductMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeleteProductMutation, DeleteProductMutationVariables>(DeleteProductDocument, baseOptions);
+      }
+export type DeleteProductMutationHookResult = ReturnType<typeof useDeleteProductMutation>;
+export type DeleteProductMutationResult = ApolloReactCommon.MutationResult<DeleteProductMutation>;
+export type DeleteProductMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteProductMutation, DeleteProductMutationVariables>;
 export const UsersDocument = gql`
     query USERS {
   users {

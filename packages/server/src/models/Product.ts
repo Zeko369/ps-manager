@@ -1,5 +1,5 @@
 import { Entity, Column, ManyToMany, OneToMany } from 'typeorm';
-import { ObjectType, Field } from 'type-graphql';
+import { ObjectType, Field, Float } from 'type-graphql';
 
 import { Model } from './Model';
 import { SubscriptionType } from './SubscriptionType';
@@ -17,7 +17,7 @@ export class Product extends Model {
   @Column()
   name: string;
 
-  @Field(() => String)
+  @Field(() => Float)
   @Column({ type: 'float' })
   price: number;
 
