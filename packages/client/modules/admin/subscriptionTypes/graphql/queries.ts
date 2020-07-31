@@ -65,3 +65,17 @@ export const UPDATE_SUBSCRIPTION_TYPE = gql`
     }
   }
 `;
+
+export const CREATE_SUBSCRIPTION_ITEM = gql`
+  mutation createSubscriptionItem(
+    $productIds: [Int!]!
+    $amounts: [Int!]!
+    $subscriptionTypeId: Int!
+  ) {
+    createSubscriptionItem(
+      data: { productIds: $productIds, amounts: $amounts, subscriptionTypeId: $subscriptionTypeId }
+    ) {
+      id
+    }
+  }
+`;

@@ -99,7 +99,7 @@ export const EditSubscriptionTypePage: React.FC = () => {
           </Box>
         </Stack>
       </Form>
-      <AddSubscriptionItem {...disclosure} />
+      <AddSubscriptionItem {...disclosure} subscriptionTypeId={id} />
     </Stack>
   );
 };

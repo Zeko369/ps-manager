@@ -360,6 +360,21 @@ export type UpdateSubscriptionTypeMutation = (
   ) }
 );
 
+export type CreateSubscriptionItemMutationVariables = Exact<{
+  productIds: Array<Scalars['Int']>;
+  amounts: Array<Scalars['Int']>;
+  subscriptionTypeId: Scalars['Int'];
+}>;
+
+
+export type CreateSubscriptionItemMutation = (
+  { __typename?: 'Mutation' }
+  & { createSubscriptionItem: (
+    { __typename?: 'SubscriptionItem' }
+    & Pick<SubscriptionItem, 'id'>
+  ) }
+);
+
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -787,6 +802,40 @@ export function useUpdateSubscriptionTypeMutation(baseOptions?: ApolloReactHooks
 export type UpdateSubscriptionTypeMutationHookResult = ReturnType<typeof useUpdateSubscriptionTypeMutation>;
 export type UpdateSubscriptionTypeMutationResult = ApolloReactCommon.MutationResult<UpdateSubscriptionTypeMutation>;
 export type UpdateSubscriptionTypeMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateSubscriptionTypeMutation, UpdateSubscriptionTypeMutationVariables>;
+export const CreateSubscriptionItemDocument = gql`
+    mutation createSubscriptionItem($productIds: [Int!]!, $amounts: [Int!]!, $subscriptionTypeId: Int!) {
+  createSubscriptionItem(data: {productIds: $productIds, amounts: $amounts, subscriptionTypeId: $subscriptionTypeId}) {
+    id
+  }
+}
+    `;
+export type CreateSubscriptionItemMutationFn = ApolloReactCommon.MutationFunction<CreateSubscriptionItemMutation, CreateSubscriptionItemMutationVariables>;
+
+/**
+ * __useCreateSubscriptionItemMutation__
+ *
+ * To run a mutation, you first call `useCreateSubscriptionItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSubscriptionItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createSubscriptionItemMutation, { data, loading, error }] = useCreateSubscriptionItemMutation({
+ *   variables: {
+ *      productIds: // value for 'productIds'
+ *      amounts: // value for 'amounts'
+ *      subscriptionTypeId: // value for 'subscriptionTypeId'
+ *   },
+ * });
+ */
+export function useCreateSubscriptionItemMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateSubscriptionItemMutation, CreateSubscriptionItemMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateSubscriptionItemMutation, CreateSubscriptionItemMutationVariables>(CreateSubscriptionItemDocument, baseOptions);
+      }
+export type CreateSubscriptionItemMutationHookResult = ReturnType<typeof useCreateSubscriptionItemMutation>;
+export type CreateSubscriptionItemMutationResult = ApolloReactCommon.MutationResult<CreateSubscriptionItemMutation>;
+export type CreateSubscriptionItemMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateSubscriptionItemMutation, CreateSubscriptionItemMutationVariables>;
 export const UsersDocument = gql`
     query USERS {
   users {

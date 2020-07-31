@@ -20,11 +20,13 @@ export class SubscriptionItemsResolver {
 
   @Mutation(() => SubscriptionItem)
   async createSubscriptionItem(@Arg('data') data: CreateSubscriptionItemInput) {
+    console.log(data);
+
     const { productIds, amounts, subscriptionTypeId } = data;
 
     if (productIds.length !== amounts.length) throw new Error('Wrong count of one of arrays');
 
-    const products = await Product.find({ where: { id: productIds } });
+    const products = await Product.findByIds(productIds);
     const subscriptionType = await SubscriptionType.findOne(subscriptionTypeId);
 
     if (!products || products.length !== productIds.length) throw new Error('Product not found!');
