@@ -44,7 +44,7 @@ const IndexModel: React.FC<IModalStuff> = ({ data, onClose, id, isOpen }) => {
                   {subscriptionType.subscriptionItems.map((si, index) => (
                     <ListItem key={si.id}>
                       <ListIcon icon="arrow-right" color="black" />
-                      Box #{index + 1}
+                      {si.name} #{index + 1}
                       <List>
                         {si.subscriptionItemProducts.map((sip) => (
                           <ListItem>

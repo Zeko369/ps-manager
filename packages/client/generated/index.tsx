@@ -91,6 +91,7 @@ export type SubscriptionItem = {
   id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  name: Scalars['String'];
   subscriptionItemProducts: Array<SubscriptionItemProduct>;
   subscriptionType: SubscriptionType;
 };
@@ -217,6 +218,7 @@ export type UpdateSubscriptionTypeInput = {
 };
 
 export type CreateSubscriptionItemInput = {
+  name: Scalars['String'];
   productIds: Array<Scalars['Int']>;
   amounts: Array<Scalars['Int']>;
   subscriptionTypeId: Scalars['Int'];
@@ -294,7 +296,7 @@ export type SubscriptionTypesQuery = (
     & Pick<SubscriptionType, 'id' | 'amount' | 'slug' | 'name' | 'price'>
     & { subscriptionItems: Array<(
       { __typename?: 'SubscriptionItem' }
-      & Pick<SubscriptionItem, 'id'>
+      & Pick<SubscriptionItem, 'id' | 'name'>
       & { subscriptionItemProducts: Array<(
         { __typename?: 'SubscriptionItemProduct' }
         & Pick<SubscriptionItemProduct, 'amount'>
@@ -319,7 +321,7 @@ export type SubscriptionTypeQuery = (
     & Pick<SubscriptionType, 'id' | 'amount' | 'slug' | 'name' | 'price'>
     & { subscriptionItems: Array<(
       { __typename?: 'SubscriptionItem' }
-      & Pick<SubscriptionItem, 'id'>
+      & Pick<SubscriptionItem, 'id' | 'name'>
       & { subscriptionItemProducts: Array<(
         { __typename?: 'SubscriptionItemProduct' }
         & Pick<SubscriptionItemProduct, 'amount'>
@@ -361,6 +363,7 @@ export type UpdateSubscriptionTypeMutation = (
 );
 
 export type CreateSubscriptionItemMutationVariables = Exact<{
+  name: Scalars['String'];
   productIds: Array<Scalars['Int']>;
   amounts: Array<Scalars['Int']>;
   subscriptionTypeId: Scalars['Int'];
@@ -647,6 +650,7 @@ export const SubscriptionTypesDocument = gql`
     price
     subscriptionItems {
       id
+      name
       subscriptionItemProducts {
         amount
         product {
@@ -694,6 +698,7 @@ export const SubscriptionTypeDocument = gql`
     price
     subscriptionItems {
       id
+      name
       subscriptionItemProducts {
         amount
         product {
@@ -803,8 +808,8 @@ export type UpdateSubscriptionTypeMutationHookResult = ReturnType<typeof useUpda
 export type UpdateSubscriptionTypeMutationResult = ApolloReactCommon.MutationResult<UpdateSubscriptionTypeMutation>;
 export type UpdateSubscriptionTypeMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateSubscriptionTypeMutation, UpdateSubscriptionTypeMutationVariables>;
 export const CreateSubscriptionItemDocument = gql`
-    mutation createSubscriptionItem($productIds: [Int!]!, $amounts: [Int!]!, $subscriptionTypeId: Int!) {
-  createSubscriptionItem(data: {productIds: $productIds, amounts: $amounts, subscriptionTypeId: $subscriptionTypeId}) {
+    mutation createSubscriptionItem($name: String!, $productIds: [Int!]!, $amounts: [Int!]!, $subscriptionTypeId: Int!) {
+  createSubscriptionItem(data: {name: $name, productIds: $productIds, amounts: $amounts, subscriptionTypeId: $subscriptionTypeId}) {
     id
   }
 }
@@ -824,6 +829,7 @@ export type CreateSubscriptionItemMutationFn = ApolloReactCommon.MutationFunctio
  * @example
  * const [createSubscriptionItemMutation, { data, loading, error }] = useCreateSubscriptionItemMutation({
  *   variables: {
+ *      name: // value for 'name'
  *      productIds: // value for 'productIds'
  *      amounts: // value for 'amounts'
  *      subscriptionTypeId: // value for 'subscriptionTypeId'

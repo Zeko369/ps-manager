@@ -72,7 +72,12 @@ const AddSubscriptionItem: React.FC<IAddSubscriptionItemProps> = ({
 
   const create = async () => {
     await createSubscriptionItem({
-      variables: { amounts: added.map((id) => amounts[id]), productIds: added, subscriptionTypeId }
+      variables: {
+        amounts: added.map((id) => amounts[id]),
+        productIds: added,
+        subscriptionTypeId,
+        name
+      }
     });
     onClose();
   };

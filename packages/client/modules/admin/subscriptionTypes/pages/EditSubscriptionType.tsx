@@ -75,7 +75,7 @@ export const EditSubscriptionTypePage: React.FC = () => {
                 <Icon name="drag-handle" aria-label="Drag" />
               </Box>
               <Heading fontSize="1.25em" mb={3}>
-                Box #{index}
+                {si.name} #{index}
               </Heading>
               <List styleType="disc">
                 {si.subscriptionItemProducts.map((p) => (

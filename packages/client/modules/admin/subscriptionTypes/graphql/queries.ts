@@ -10,6 +10,7 @@ export const SUBSCRIPTION_TYPES = gql`
       price
       subscriptionItems {
         id
+        name
         subscriptionItemProducts {
           amount
           product {
@@ -33,6 +34,7 @@ export const SUBSCRIPTION_TYPE = gql`
       price
       subscriptionItems {
         id
+        name
         subscriptionItemProducts {
           amount
           product {
@@ -68,12 +70,18 @@ export const UPDATE_SUBSCRIPTION_TYPE = gql`
 
 export const CREATE_SUBSCRIPTION_ITEM = gql`
   mutation createSubscriptionItem(
+    $name: String!
     $productIds: [Int!]!
     $amounts: [Int!]!
     $subscriptionTypeId: Int!
   ) {
     createSubscriptionItem(
-      data: { productIds: $productIds, amounts: $amounts, subscriptionTypeId: $subscriptionTypeId }
+      data: {
+        name: $name
+        productIds: $productIds
+        amounts: $amounts
+        subscriptionTypeId: $subscriptionTypeId
+      }
     ) {
       id
     }
