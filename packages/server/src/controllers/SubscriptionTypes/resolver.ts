@@ -4,7 +4,6 @@ import { SubscriptionItem } from '../../models/SubscriptionItem';
 import { SubscriptionType } from '../../models/SubscriptionType';
 import { CreateSubscriptionTypeInput, UpdateSubscriptionTypeInput } from './inputs';
 
-// SubscriptionItem -> product - amount on relation??
 const relations = [
   'subscriptionItems',
   'subscriptionItems.subscriptionItemProducts',
