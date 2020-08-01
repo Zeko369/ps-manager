@@ -203,7 +203,7 @@ export type CreateSubscriptionTypeInput = {
   amount?: Maybe<Scalars['Int']>;
   slug: Scalars['String'];
   name?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['Int']>;
+  price?: Maybe<Scalars['Float']>;
   subscriptionItems?: Maybe<Array<Scalars['Int']>>;
   subscriptionItemsOrder?: Maybe<Array<Scalars['Int']>>;
 };
@@ -212,7 +212,7 @@ export type UpdateSubscriptionTypeInput = {
   amount?: Maybe<Scalars['Int']>;
   slug?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['Int']>;
+  price?: Maybe<Scalars['Float']>;
   subscriptionItems?: Maybe<Array<Scalars['Int']>>;
   subscriptionItemsOrder?: Maybe<Array<Scalars['Int']>>;
 };
@@ -375,6 +375,27 @@ export type CreateSubscriptionItemMutation = (
   & { createSubscriptionItem: (
     { __typename?: 'SubscriptionItem' }
     & Pick<SubscriptionItem, 'id'>
+  ) }
+);
+
+export type SubscriptionItemQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type SubscriptionItemQuery = (
+  { __typename?: 'Query' }
+  & { subscriptionItem: (
+    { __typename?: 'SubscriptionItem' }
+    & Pick<SubscriptionItem, 'id' | 'name'>
+    & { subscriptionItemProducts: Array<(
+      { __typename?: 'SubscriptionItemProduct' }
+      & Pick<SubscriptionItemProduct, 'amount'>
+      & { product: (
+        { __typename?: 'Product' }
+        & Pick<Product, 'id' | 'name' | 'price'>
+      ) }
+    )> }
   ) }
 );
 
@@ -842,6 +863,48 @@ export function useCreateSubscriptionItemMutation(baseOptions?: ApolloReactHooks
 export type CreateSubscriptionItemMutationHookResult = ReturnType<typeof useCreateSubscriptionItemMutation>;
 export type CreateSubscriptionItemMutationResult = ApolloReactCommon.MutationResult<CreateSubscriptionItemMutation>;
 export type CreateSubscriptionItemMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateSubscriptionItemMutation, CreateSubscriptionItemMutationVariables>;
+export const SubscriptionItemDocument = gql`
+    query subscriptionItem($id: Int!) {
+  subscriptionItem(id: $id) {
+    id
+    name
+    subscriptionItemProducts {
+      amount
+      product {
+        id
+        name
+        price
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useSubscriptionItemQuery__
+ *
+ * To run a query within a React component, call `useSubscriptionItemQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSubscriptionItemQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSubscriptionItemQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useSubscriptionItemQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<SubscriptionItemQuery, SubscriptionItemQueryVariables>) {
+        return ApolloReactHooks.useQuery<SubscriptionItemQuery, SubscriptionItemQueryVariables>(SubscriptionItemDocument, baseOptions);
+      }
+export function useSubscriptionItemLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SubscriptionItemQuery, SubscriptionItemQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<SubscriptionItemQuery, SubscriptionItemQueryVariables>(SubscriptionItemDocument, baseOptions);
+        }
+export type SubscriptionItemQueryHookResult = ReturnType<typeof useSubscriptionItemQuery>;
+export type SubscriptionItemLazyQueryHookResult = ReturnType<typeof useSubscriptionItemLazyQuery>;
+export type SubscriptionItemQueryResult = ApolloReactCommon.QueryResult<SubscriptionItemQuery, SubscriptionItemQueryVariables>;
 export const UsersDocument = gql`
     query USERS {
   users {

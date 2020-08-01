@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -19,78 +19,26 @@ import {
   Stack,
   Flex
 } from '@chakra-ui/core';
-import { useProductsQuery, useCreateSubscriptionItemMutation } from '../../../../generated';
-import { SUBSCRIPTION_TYPES } from '../graphql/queries';
+import { useProductsQuery, useCreateSubscriptionItemMutation } from '../../../../../generated';
+import { SubscriptionItemContext } from './Context';
 
-interface IAddSubscriptionItemProps {
+export interface ISubscriptionItemModalProps {
   isOpen: boolean;
+  title: string;
   onClose: () => void;
-  subscriptionTypeId: number;
+  onMainClick: () => any;
+  create?: boolean;
 }
 
-const AddSubscriptionItem: React.FC<IAddSubscriptionItemProps> = ({
-  onClose,
-  isOpen,
-  subscriptionTypeId
-}) => {
-  const [custom, setCustom] = useState<boolean>(false);
-  const [name, setName] = useState<string>('');
-  const [search, setSearch] = useState<string>('');
-  const [added, setAdded] = useState<number[]>([]);
+const SubscriptionItemModal: React.FC<ISubscriptionItemModalProps> = (props) => {
+  const { onClose, isOpen, title, onMainClick, create } = props;
+
   const [showProducts, setShowProducts] = useState<boolean>(false);
-  const [amounts, setAmounts] = useState<Record<number, number>>({});
-
   const { loading, error, data } = useProductsQuery();
-  const [createSubscriptionItem] = useCreateSubscriptionItemMutation({
-    refetchQueries: [{ query: SUBSCRIPTION_TYPES }]
-  });
 
-  const add = (productId: number) => () => {
-    if (!added.includes(productId)) {
-      if (
-        !custom &&
-        (added.length === 0 ||
-          data.products.find((p) => p.id === added[added.length - 1]).name === name)
-      ) {
-        setName(data.products.find((p) => p.id === productId).name);
-      }
-
-      setAdded((x) => [...x, productId]);
-      setAmounts((x) => ({ ...x, [productId]: 1 }));
-    }
-  };
-
-  const remove = (productId: number) => () => {
-    if (!custom) {
-      if (added.length === 2) {
-        setName(data.products.find((p) => p.id === added.find((a) => a !== productId)).name);
-      } else if (added.length === 1 && data.products.find((p) => p.id === added[0]).name === name) {
-        setName('');
-      } else if (data.products.find((p) => p.id === productId).name === name) {
-        setName(data.products.find((p) => p.id === added.filter((a) => a !== productId)[0]).name);
-      }
-    }
-
-    setAdded((x) => x.filter((p) => p !== productId));
-  };
-
-  const create = async () => {
-    await createSubscriptionItem({
-      variables: {
-        amounts: added.map((id) => amounts[id]),
-        productIds: added,
-        subscriptionTypeId,
-        name
-      }
-    });
-
-    setName('');
-    setAdded([]);
-    setSearch('');
-    setAmounts({});
-
-    onClose();
-  };
+  const { nameInput, searchInput, added, amounts, add, remove, setAmounts } = useContext(
+    SubscriptionItemContext
+  );
 
   const toggleProducts = () => setShowProducts((x) => !x);
 
@@ -99,21 +47,13 @@ const AddSubscriptionItem: React.FC<IAddSubscriptionItemProps> = ({
       <ModalOverlay />
       <ModalContent>
         <>
-          <ModalHeader>Add new subscription item</ModalHeader>
+          <ModalHeader>{title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Stack>
               <Box>
                 <FormLabel htmlFor="name">Name</FormLabel>
-                <Input
-                  name="name"
-                  value={name}
-                  placeholder="Name"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setName(e.target.value);
-                    setCustom(true);
-                  }}
-                />
+                <Input name="name" placeholder="Name" {...nameInput} />
               </Box>
 
               {loading || !data ? (
@@ -128,18 +68,14 @@ const AddSubscriptionItem: React.FC<IAddSubscriptionItemProps> = ({
                   {showProducts && (
                     <Box>
                       <FormLabel htmlFor="search">Search</FormLabel>
-                      <Input
-                        name="search"
-                        value={search}
-                        placeholder="Search..."
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          setSearch(e.target.value)
-                        }
-                        mb={3}
-                      />
+                      <Input name="search" placeholder="Search..." {...searchInput} mb={3} />
                       <List styleType="disc">
                         {data.products
-                          .filter((p) => search.split(' ').some((word) => p.name.includes(word)))
+                          .filter((p) =>
+                            searchInput.value
+                              .split(' ')
+                              .some((word) => p.name.toLowerCase().includes(word.toLowerCase()))
+                          )
                           .filter((p) => !added.includes(p.id))
                           .map((product) => (
                             <ListItem>
@@ -150,7 +86,7 @@ const AddSubscriptionItem: React.FC<IAddSubscriptionItemProps> = ({
                                 aria-label="Add"
                                 mr={2}
                                 my={1}
-                                onClick={add(product.id)}
+                                onClick={add(product.id, data)}
                               />
                               {product.name}
                             </ListItem>
@@ -181,7 +117,7 @@ const AddSubscriptionItem: React.FC<IAddSubscriptionItemProps> = ({
                               variantColor="red"
                               icon="delete"
                               aria-label="delete"
-                              onClick={remove(product.id)}
+                              onClick={remove(product.id, data)}
                               mr={3}
                             />
                           </Flex>
@@ -197,15 +133,15 @@ const AddSubscriptionItem: React.FC<IAddSubscriptionItemProps> = ({
             <Flex justifyContent="space-between" w="100%">
               <Stack isInline>
                 <Button variantColor="cyan" onClick={toggleProducts}>
-                  {showProducts ? 'Hide' : 'Show'} products
+                  {showProducts ? 'Hide' : 'Show'} search
                 </Button>
               </Stack>
               <Stack isInline>
                 <Button variantColor="blue" onClick={onClose}>
                   Close
                 </Button>
-                <Button variantColor="green" onClick={create}>
-                  Create
+                <Button variantColor="green" onClick={onMainClick}>
+                  {create ? 'Create' : 'Update'}
                 </Button>
               </Stack>
             </Flex>
@@ -216,4 +152,4 @@ const AddSubscriptionItem: React.FC<IAddSubscriptionItemProps> = ({
   );
 };
 
-export default AddSubscriptionItem;
+export default SubscriptionItemModal;

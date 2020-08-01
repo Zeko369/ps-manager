@@ -87,3 +87,20 @@ export const CREATE_SUBSCRIPTION_ITEM = gql`
     }
   }
 `;
+
+export const SUBSCRIPTION_ITEM = gql`
+  query subscriptionItem($id: Int!) {
+    subscriptionItem(id: $id) {
+      id
+      name
+      subscriptionItemProducts {
+        amount
+        product {
+          id
+          name
+          price
+        }
+      }
+    }
+  }
+`;

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
   Heading,
@@ -17,7 +17,8 @@ import { useSubscriptionTypeQuery, useUpdateSubscriptionTypeMutation } from '../
 import Form, { IFormData } from '../components/Form';
 import { getId } from '../../../../helpers/getId';
 import { SUBSCRIPTION_TYPES } from '../graphql/queries';
-import AddSubscriptionItem from '../components/AddSubscriptionItem';
+import AddSubscriptionItem from '../components/SubscriptionItem/Modal';
+import { CreateSubscriptionItem, UpdateSubscriptionItem } from '../components/SubscriptionItem';
 
 const cardProps: BoxProps = {
   borderWidth: '1px',
@@ -34,9 +35,12 @@ const cardProps: BoxProps = {
 
 export const EditSubscriptionTypePage: React.FC = () => {
   const disclosure = useDisclosure();
+  const disclosureEdit = useDisclosure();
 
   const router = useRouter();
   const id = getId(router.query);
+
+  const [updateId, setUpdateId] = useState<number>(-1);
 
   const { loading, error, data } = useSubscriptionTypeQuery({ variables: { id } });
   const [updateSubscriptionType] = useUpdateSubscriptionTypeMutation({
@@ -61,7 +65,10 @@ export const EditSubscriptionTypePage: React.FC = () => {
     [loading, data]
   );
 
-  const edit = (id: number) => () => console.log(id);
+  const edit = (id: number) => () => {
+    setUpdateId(id);
+    disclosureEdit.onOpen();
+  };
 
   if (loading) return <Heading>Loading...</Heading>;
   if (error) return <Heading>Error...</Heading>;
@@ -109,7 +116,8 @@ export const EditSubscriptionTypePage: React.FC = () => {
           </Box>
         </Stack>
       </Form>
-      <AddSubscriptionItem {...disclosure} subscriptionTypeId={id} />
+      <CreateSubscriptionItem {...disclosure} subscriptionTypeId={id} />
+      <UpdateSubscriptionItem {...disclosureEdit} subscriptionTypeId={id} id={updateId} />
     </Stack>
   );
 };
