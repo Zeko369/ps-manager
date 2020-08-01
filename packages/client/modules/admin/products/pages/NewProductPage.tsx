@@ -17,7 +17,7 @@ export const NewProductPage: React.FC = () => {
   );
 
   const onSubmit = async (data: IFormData) => {
-    await createProduct({ variables: { ...data, price: parseFloat(data.price) } });
+    await createProduct({ variables: { ...data, price: parseFloat(String(data.price)) } });
     router.push('/admin/products');
   };
 

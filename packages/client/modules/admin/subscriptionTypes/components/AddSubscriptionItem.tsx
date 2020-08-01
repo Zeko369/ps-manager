@@ -33,6 +33,7 @@ const AddSubscriptionItem: React.FC<IAddSubscriptionItemProps> = ({
   isOpen,
   subscriptionTypeId
 }) => {
+  const [custom, setCustom] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
   const [search, setSearch] = useState<string>('');
   const [added, setAdded] = useState<number[]>([]);
@@ -47,8 +48,9 @@ const AddSubscriptionItem: React.FC<IAddSubscriptionItemProps> = ({
   const add = (productId: number) => () => {
     if (!added.includes(productId)) {
       if (
-        added.length === 0 ||
-        data.products.find((p) => p.id === added[added.length - 1]).name === name
+        !custom &&
+        (added.length === 0 ||
+          data.products.find((p) => p.id === added[added.length - 1]).name === name)
       ) {
         setName(data.products.find((p) => p.id === productId).name);
       }
@@ -59,12 +61,14 @@ const AddSubscriptionItem: React.FC<IAddSubscriptionItemProps> = ({
   };
 
   const remove = (productId: number) => () => {
-    if (added.length === 2) {
-      setName(data.products.find((p) => p.id === added.find((a) => a !== productId)).name);
-    } else if (added.length === 1 && data.products.find((p) => p.id === added[0]).name === name) {
-      setName('');
-    } else if (data.products.find((p) => p.id === productId).name === name) {
-      setName(data.products.find((p) => p.id === added.filter((a) => a !== productId)[0]).name);
+    if (!custom) {
+      if (added.length === 2) {
+        setName(data.products.find((p) => p.id === added.find((a) => a !== productId)).name);
+      } else if (added.length === 1 && data.products.find((p) => p.id === added[0]).name === name) {
+        setName('');
+      } else if (data.products.find((p) => p.id === productId).name === name) {
+        setName(data.products.find((p) => p.id === added.filter((a) => a !== productId)[0]).name);
+      }
     }
 
     setAdded((x) => x.filter((p) => p !== productId));
@@ -79,6 +83,12 @@ const AddSubscriptionItem: React.FC<IAddSubscriptionItemProps> = ({
         name
       }
     });
+
+    setName('');
+    setAdded([]);
+    setSearch('');
+    setAmounts({});
+
     onClose();
   };
 
@@ -99,7 +109,10 @@ const AddSubscriptionItem: React.FC<IAddSubscriptionItemProps> = ({
                   name="name"
                   value={name}
                   placeholder="Name"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setName(e.target.value);
+                    setCustom(true);
+                  }}
                 />
               </Box>
 
