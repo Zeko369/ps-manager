@@ -39,35 +39,31 @@ export const SubscriptionTypesPage: React.FC = () => {
             </thead>
             <tbody>
               {data.subscriptionTypes.map((st) => (
-                <>
-                  <tr key={st.id}>
-                    <td>{st.id}</td>
-                    <td>{st.slug}</td>
-                    <td>{st.name}</td>
-                    <td style={{ textAlign: 'right', paddingRight: 50 }}>
-                      {formatPrice(st.price)}
-                    </td>
-                    <td>
-                      <Stack isInline>
-                        <IconButton
-                          icon="view"
-                          aria-label="open"
-                          onClick={() => {
-                            setOpenId(st.id);
-                            onOpen();
-                          }}
-                        />
-                        <LinkIconButton
-                          href="/admin/subscriptionTypes/[id]/edit"
-                          as={`/admin/subscriptionTypes/${st.id}/edit`}
-                          icon="edit"
-                          aria-label="Edit"
-                          variantColor="green"
-                        />
-                      </Stack>
-                    </td>
-                  </tr>
-                </>
+                <tr key={st.id}>
+                  <td>{st.id}</td>
+                  <td>{st.slug}</td>
+                  <td>{st.name}</td>
+                  <td style={{ textAlign: 'right', paddingRight: 50 }}>{formatPrice(st.price)}</td>
+                  <td>
+                    <Stack isInline>
+                      <IconButton
+                        icon="view"
+                        aria-label="open"
+                        onClick={() => {
+                          setOpenId(st.id);
+                          onOpen();
+                        }}
+                      />
+                      <LinkIconButton
+                        href="/admin/subscriptionTypes/[id]/edit"
+                        as={`/admin/subscriptionTypes/${st.id}/edit`}
+                        icon="edit"
+                        aria-label="Edit"
+                        variantColor="green"
+                      />
+                    </Stack>
+                  </td>
+                </tr>
               ))}
             </tbody>
           </Table>
