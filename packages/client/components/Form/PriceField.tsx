@@ -5,9 +5,10 @@ const PriceField: React.ForwardRefExoticComponent<{
   register: any;
   isRequired?: boolean;
   label?: string;
-}> = forwardRef(({ isRequired, register, label = 'Price' }, ref) => {
+  w?: string;
+}> = forwardRef(({ isRequired, register, label = 'Price', w }, ref) => {
   return (
-    <FormControl ref={ref} isRequired={isRequired}>
+    <FormControl ref={ref} isRequired={isRequired} w={w}>
       <FormLabel htmlFor="price">{label}</FormLabel>
       <Input
         name="price"

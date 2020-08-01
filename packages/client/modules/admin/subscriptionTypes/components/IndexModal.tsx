@@ -36,30 +36,38 @@ const IndexModal: React.FC<IModalStuff> = ({ data, onClose, id, isOpen }) => {
             <ModalHeader>{subscriptionType.name}</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <b>Slug:</b> {subscriptionType.slug}
-              <br />
-              <b>Items: </b>
-              {subscriptionType.subscriptionItems.length ? (
-                <List>
-                  {subscriptionType.subscriptionItems.map((si, index) => (
-                    <ListItem key={si.id}>
-                      <ListIcon icon="arrow-right" color="black" />
-                      {si.name} #{index + 1}
-                      <List>
-                        {si.subscriptionItemProducts.map((sip) => (
-                          <ListItem>
-                            <ListIcon icon="chevron-right" color="black" />
-                            {sip.product.name}
-                            {sip.amount !== 1 && ` x ${sip.amount}`}
-                          </ListItem>
-                        ))}
-                      </List>
-                    </ListItem>
-                  ))}
-                </List>
-              ) : (
-                <Text>No items</Text>
-              )}
+              <Stack spacing={1}>
+                <Text>
+                  <b>Slug:</b> {subscriptionType.slug}
+                </Text>
+                <Text color={subscriptionType.amount !== 1 ? 'red.500' : undefined}>
+                  <b>Multiplier:</b> {subscriptionType.amount}
+                </Text>
+                <Text>
+                  <b>Items:</b>
+                </Text>
+                {subscriptionType.subscriptionItems.length ? (
+                  <List>
+                    {subscriptionType.subscriptionItems.map((si, index) => (
+                      <ListItem key={si.id}>
+                        <ListIcon icon="arrow-right" color="black" />
+                        {si.name} #{index + 1}
+                        <List>
+                          {si.subscriptionItemProducts.map((sip) => (
+                            <ListItem>
+                              <ListIcon icon="chevron-right" color="black" />
+                              {sip.product.name}
+                              {sip.amount !== 1 && ` x ${sip.amount}`}
+                            </ListItem>
+                          ))}
+                        </List>
+                      </ListItem>
+                    ))}
+                  </List>
+                ) : (
+                  <Text>No items</Text>
+                )}
+              </Stack>
             </ModalBody>
 
             <ModalFooter>

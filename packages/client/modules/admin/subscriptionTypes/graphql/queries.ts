@@ -64,6 +64,8 @@ export const UPDATE_SUBSCRIPTION_TYPE = gql`
       id
       name
       slug
+      amount
+      price
     }
   }
 `;
