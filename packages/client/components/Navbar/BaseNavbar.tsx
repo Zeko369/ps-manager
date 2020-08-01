@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Heading, Flex, Text } from '@chakra-ui/core';
 import NextLink from 'next/link';
 import Link from '../Link';
+import { useRouter } from 'next/router';
 
 export interface ILink {
   text: string;
@@ -14,7 +15,9 @@ interface BaseNavbarProps {
 }
 
 const BaseNavbar: React.FC<BaseNavbarProps> = ({ links, right, ...props }) => {
-  const [show, setShow] = React.useState(false);
+  const [show, setShow] = useState(false);
+  const router = useRouter();
+
   const handleToggle = () => setShow(!show);
 
   return (
@@ -53,6 +56,7 @@ const BaseNavbar: React.FC<BaseNavbarProps> = ({ links, right, ...props }) => {
       >
         {links.map((link) => (
           <Link
+            {...(router.asPath.startsWith(link.href) ? { textDecor: 'underline' } : {})}
             key={`${link.text} ${link.href}`}
             href={link.href}
             mt={{ base: 4, md: 0 }}

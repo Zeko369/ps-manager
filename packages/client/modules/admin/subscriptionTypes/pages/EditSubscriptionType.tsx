@@ -9,7 +9,8 @@ import {
   BoxProps,
   useDisclosure,
   ListItem,
-  List
+  List,
+  Flex
 } from '@chakra-ui/core';
 
 import { useSubscriptionTypeQuery, useUpdateSubscriptionTypeMutation } from '../../../../generated';
@@ -60,6 +61,8 @@ export const EditSubscriptionTypePage: React.FC = () => {
     [loading, data]
   );
 
+  const edit = (id: number) => () => console.log(id);
+
   if (loading) return <Heading>Loading...</Heading>;
   if (error) return <Heading>Error...</Heading>;
 
@@ -71,11 +74,18 @@ export const EditSubscriptionTypePage: React.FC = () => {
         <Stack spacing={4} isInline>
           {data.subscriptionType.subscriptionItems.map((si, index) => (
             <Box {...cardProps} borderColor="gray.200">
-              <Box pos="absolute" top="10px" left="10px" cursor="pointer">
+              <Flex justify="space-between" pos="absolute" top="10px" left="10px" right="10px">
                 <Icon name="drag-handle" aria-label="Drag" />
-              </Box>
+                <IconButton
+                  icon="edit"
+                  aria-label="Edit"
+                  size="xs"
+                  variantColor="green"
+                  onClick={edit(si.id)}
+                />
+              </Flex>
               <Heading fontSize="1.25em" mb={3}>
-                {si.name} #{index}
+                {si.name} #{index + 1}
               </Heading>
               <List styleType="disc">
                 {si.subscriptionItemProducts.map((p) => (
