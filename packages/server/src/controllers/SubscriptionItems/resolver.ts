@@ -6,16 +6,18 @@ import { SubscriptionType } from '../../models/SubscriptionType';
 import { CreateSubscriptionItemInput, UpdateSubscriptionItemInput } from './inputs';
 import { SubscriptionItemProduct } from '../../models/relations/SubscriptionItemProduct';
 
+const relations = ['subscriptionItemProducts', 'subscriptionItemProducts.product'];
+
 @Resolver()
 export class SubscriptionItemsResolver {
   @Query(() => [SubscriptionItem])
   subscriptionItems() {
-    return SubscriptionItem.find({ order: { createdAt: 'DESC' } });
+    return SubscriptionItem.find({ order: { createdAt: 'DESC' }, relations });
   }
 
   @Query(() => SubscriptionItem)
   subscriptionItem(@Arg('id', () => Int) id: number) {
-    return SubscriptionItem.findOne(id);
+    return SubscriptionItem.findOne(id, { relations });
   }
 
   @Mutation(() => SubscriptionItem)
