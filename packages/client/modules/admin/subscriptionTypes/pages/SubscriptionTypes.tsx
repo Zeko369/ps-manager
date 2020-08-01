@@ -4,7 +4,7 @@ import { Flex, Heading, IconButton, Stack, useDisclosure } from '@chakra-ui/core
 import { LinkIconButton, LinkButton } from '../../../../components/Link';
 import { useSubscriptionTypesQuery } from '../../../../generated';
 import Table from '../../../../components/Table';
-import IndexModel from '../components/IndexModel';
+import IndexModal from '../components/IndexModal';
 import { formatPrice } from '../../../../helpers/formatPrice';
 
 export const SubscriptionTypesPage: React.FC = () => {
@@ -68,7 +68,7 @@ export const SubscriptionTypesPage: React.FC = () => {
             </tbody>
           </Table>
 
-          <IndexModel onClose={onClose} isOpen={isOpen} data={data} id={openId} />
+          <IndexModal onClose={onClose} isOpen={isOpen} data={data} id={openId} />
         </>
       )}
     </>

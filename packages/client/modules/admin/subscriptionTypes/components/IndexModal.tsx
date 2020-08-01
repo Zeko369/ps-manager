@@ -24,7 +24,7 @@ interface IModalStuff {
   id: number;
 }
 
-const IndexModel: React.FC<IModalStuff> = ({ data, onClose, id, isOpen }) => {
+const IndexModal: React.FC<IModalStuff> = ({ data, onClose, id, isOpen }) => {
   const subscriptionType = data.subscriptionTypes.find((st) => st.id === id);
 
   return (
@@ -95,4 +95,4 @@ const IndexModel: React.FC<IModalStuff> = ({ data, onClose, id, isOpen }) => {
   );
 };
 
-export default IndexModel;
+export default IndexModal;
