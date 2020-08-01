@@ -1,4 +1,4 @@
-import { InputType, Field, Int } from 'type-graphql';
+import { InputType, Field, Int, Float } from 'type-graphql';
 
 @InputType()
 export class CreateSubscriptionTypeInput {
@@ -11,7 +11,7 @@ export class CreateSubscriptionTypeInput {
   @Field(() => String, { nullable: true })
   name?: string;
 
-  @Field(() => Int, { nullable: true })
+  @Field(() => Float, { nullable: true })
   price?: number;
 
   @Field(() => [Int], { nullable: true })
@@ -32,7 +32,7 @@ export class UpdateSubscriptionTypeInput {
   @Field(() => String, { nullable: true })
   name?: string;
 
-  @Field(() => Int, { nullable: true })
+  @Field(() => Float, { nullable: true })
   price?: number;
 
   @Field(() => [Int], { nullable: true })

@@ -44,6 +44,7 @@ export const EditSubscriptionTypePage: React.FC = () => {
 
   const onSubmit = async (data: IFormData) => {
     const price = parseFloat(String(data.price));
+    console.log(price);
     await updateSubscriptionType({ variables: { id, data: { ...data, price } } });
     router.push('/admin/subscriptionTypes');
   };

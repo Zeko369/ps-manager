@@ -34,7 +34,7 @@ const Form: React.FC<IFormProps> = ({ onSubmit, initData, children }) => {
           <Stack spacing={3}>
             <PriceField
               register={register}
-              label={initData.sum && `Price: (Combined: ${initData.sum})`}
+              label={initData.sum ? `Price: (Combined: ${initData.sum})` : undefined}
             />
           </Stack>
         )}
