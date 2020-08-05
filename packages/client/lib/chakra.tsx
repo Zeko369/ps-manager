@@ -1,8 +1,8 @@
-import { ThemeProvider, CSSReset, theme } from '@chakra-ui/core';
+import { ThemeProvider, CSSReset } from '@chakra-ui/core';
 
 const ChakraWrapper: React.FC = ({ children }) => {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <CSSReset />
       {children}
     </ThemeProvider>
