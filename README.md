@@ -5,4 +5,3 @@
 - shared
 - client
 - server
-- minimax
